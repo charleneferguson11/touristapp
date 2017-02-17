@@ -8,7 +8,7 @@ import android.support.v7.widget.RecyclerView;
 
 public class ItineraryActivity extends AppCompatActivity {
     // Number of items the view can hold
-    private static final int NUMBER_OF_ITEMS = 50;
+    private static final int NUMBER_OF_ITEMS = 10;
     // member that holds the adapter for the itinerary list
     private ItineraryAdapter mAdapter;
     // member that holds recyclerview of the itinerary list
