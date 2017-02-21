@@ -1,10 +1,14 @@
 package dreamteamuk.touristapp;
 
-import android.support.v7.app.AppCompatActivity;
+import android.content.Context;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
+import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.view.Menu;
+import android.view.MenuItem;
+import android.widget.Toast;
 
 public class ItineraryActivity extends AppCompatActivity {
     // Number of items the view can hold
@@ -31,4 +35,25 @@ public class ItineraryActivity extends AppCompatActivity {
         mAdapter = new ItineraryAdapter(NUMBER_OF_ITEMS);
         mItineraryList.setAdapter(mAdapter);
     }
+
+    @Override
+    public  boolean onCreateOptionsMenu(Menu menu){
+        getMenuInflater().inflate(R.menu.main, menu);
+        return true;
+    }
+
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+
+        int menuItemSelected = item.getItemId();
+        if(menuItemSelected == R.id.action_search){
+            Context context = ItineraryActivity.this;
+            String message = "Search clicked";
+            Toast.makeText(context, message, Toast.LENGTH_LONG).show();
+        }
+        return super.onOptionsItemSelected(item);
+    }
+
+
 }
