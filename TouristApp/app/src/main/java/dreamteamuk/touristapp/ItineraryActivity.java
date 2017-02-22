@@ -1,6 +1,7 @@
 package dreamteamuk.touristapp;
 
 import android.content.Context;
+import android.content.Intent;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
@@ -29,6 +30,21 @@ public class ItineraryActivity extends AppCompatActivity {
 
         // Add button to add Itinerary items
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
+
+        fab.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                //Create an itinerary intent to start Activity that adds a new place to Itinerary
+                Intent intentItinerary;
+                intentItinerary = new Intent(ItineraryActivity.this, AddToItinearyActivity.class);
+
+                // Verify that the intent will resolve to an activity
+                if (intentItinerary.resolveActivity(getPackageManager()) != null) {
+                    startActivity(intentItinerary);
+                }
+
+            }
+        });
 
 
         mItineraryList = (RecyclerView) findViewById(R.id.rv_itinerary);
