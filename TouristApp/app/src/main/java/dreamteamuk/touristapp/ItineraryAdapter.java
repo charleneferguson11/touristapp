@@ -13,13 +13,15 @@ import android.widget.TextView;
  */
 
 
-// Create a view holder which reduces the number of calls to findViewById improving the performance.
 
 public class ItineraryAdapter extends RecyclerView.Adapter<ItineraryAdapter.ItineraryViewHolder> {
 
 // Indicate how many views an adapter will hold.
     private int mNumberOfItems;
+ // Stores the cursor
     private Cursor mCursor;
+
+ // Stores the current
     private Context mContext;
 
 
@@ -61,9 +63,12 @@ public class ItineraryAdapter extends RecyclerView.Adapter<ItineraryAdapter.Itin
      TextView placeItineraryListView;
      // Will display the priority of the place
      TextView priorityItineraryListView;
+     // Will display the list index
+     TextView itemIndexItineraryListView;
 
      /**
-      *
+      * Create a view holder which reduces the number of calls to findViewById
+      * improving performance.
       * @param itemView
       */
 
@@ -72,11 +77,12 @@ public class ItineraryAdapter extends RecyclerView.Adapter<ItineraryAdapter.Itin
 
          placeItineraryListView = (TextView) itemView.findViewById(R.id.place);
          priorityItineraryListView = (TextView) itemView.findViewById(R.id.priority);
+         itemIndexItineraryListView = (TextView) itemView.findViewById(R.id.item_index);
 
      }
 
      void bind(int listIndex){
-         placeItineraryListView.setText(String.valueOf(listIndex));
+         itemIndexItineraryListView.setText(String.valueOf(listIndex));
      }
 
  }

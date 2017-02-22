@@ -1,4 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
+<!--This is the layout for the items of the recycler view-->
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
              android:layout_width="match_parent"
              android:layout_height="wrap_content"
@@ -8,10 +9,10 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/place"
-        android:padding="16dp"
+        android:paddingLeft="16dp"
         android:textSize="16sp"
         android:fontFamily="monospace"
-        android:text="place description"/>
+        android:text="place"/>
 
     <TextView
         android:layout_width="wrap_content"
@@ -19,7 +20,17 @@
         android:id="@+id/priority"
         android:textSize="16sp"
         android:fontFamily="monospace"
-        android:text="place priority"/>
+        android:text="priority"
+        android:paddingLeft="16dp"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/item_index"
+        android:textSize="16sp"
+        android:fontFamily="monospace"
+        android:text="index"
+        android:paddingLeft="16dp"/>
 
 
 

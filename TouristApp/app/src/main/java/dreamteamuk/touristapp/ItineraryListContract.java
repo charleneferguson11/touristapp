@@ -4,6 +4,7 @@ import android.provider.BaseColumns;
 
 /**
  * Created by charlene on 17/02/2017.
+ * This class defines the database and tables.
  */
 public class ItineraryListContract {
     public class ItineraryListEntry implements BaseColumns {
