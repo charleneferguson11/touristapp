@@ -18,6 +18,7 @@ public class ItineraryAdapter extends RecyclerView.Adapter<ItineraryAdapter.Itin
 
 // Indicate how many views an adapter will hold.
     private int mNumberOfItems;
+
  // Stores the cursor
     private Cursor mCursor;
 

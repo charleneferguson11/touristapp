@@ -1,6 +1,7 @@
 package dreamteamuk.touristapp;
 
 import android.content.Context;
+import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
@@ -8,6 +9,7 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.Toast;
 
 public class ItineraryActivity extends AppCompatActivity {
@@ -17,6 +19,8 @@ public class ItineraryActivity extends AppCompatActivity {
     private ItineraryAdapter mAdapter;
     // member that holds recyclerview of the itinerary list
     private RecyclerView mItineraryList;
+    // member that holds the database
+    private SQLiteDatabase mItineraryDb;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -32,9 +36,27 @@ public class ItineraryActivity extends AppCompatActivity {
         LinearLayoutManager layoutManager = new LinearLayoutManager(this);
         mItineraryList.setLayoutManager(layoutManager);
 
+        // Create an instance of DbHelper to create the database and tables
+        ItineraryListDbHelper dbHelper = new ItineraryListDbHelper(this);
+        // Create a writable database
+        mItineraryDb = dbHelper.getWritableDatabase();
         mAdapter = new ItineraryAdapter(NUMBER_OF_ITEMS);
         mItineraryList.setAdapter(mAdapter);
     }
+
+    /**
+     * Add item to itinerary list
+     */
+
+    public void addToItineraryList(View view){
+
+    }
+
+
+    //private Cursor getAllDataInTable(){
+
+    //}
+
 
     @Override
     public  boolean onCreateOptionsMenu(Menu menu){
