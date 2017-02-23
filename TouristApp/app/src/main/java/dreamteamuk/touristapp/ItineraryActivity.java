@@ -2,6 +2,7 @@ package dreamteamuk.touristapp;
 
 import android.content.Context;
 import android.content.Intent;
+import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
@@ -16,7 +17,7 @@ import android.widget.Toast;
 
 public class ItineraryActivity extends AppCompatActivity {
 
-    private  static final String TAG = "ItineraryActivity";
+    private static final String TAG = "ItineraryActivity";
     // Number of items the view can hold
     private static final int NUMBER_OF_ITEMS = 10;
     // member that holds the adapter for the itinerary list
@@ -61,6 +62,9 @@ public class ItineraryActivity extends AppCompatActivity {
         ItineraryListDbHelper dbHelper = new ItineraryListDbHelper(this);
         // Create a writable database
         mItineraryDb = dbHelper.getWritableDatabase();
+
+        Cursor cursor = getAllItineraryData();
+
         mAdapter = new ItineraryAdapter(NUMBER_OF_ITEMS);
         mItineraryList.setAdapter(mAdapter);
     }
@@ -68,7 +72,7 @@ public class ItineraryActivity extends AppCompatActivity {
 
     /**
      * Log Activity lifecycle
-    */
+     */
 
     @Override
     public void onStart() {
@@ -101,25 +105,31 @@ public class ItineraryActivity extends AppCompatActivity {
     }
 
 
-
-
-
     /**
      * Add item to itinerary list
      */
-
-    public void addToItineraryList(View view){
+    public void addToItineraryList(View view) {
 
     }
 
+    /**
+     * Method for displaying all data in itinerary list table
+     */
+    private Cursor getAllItineraryData() {
 
-    //private Cursor getAllDataInTable(){
-
-    //}
+        return mItineraryDb.query(ItineraryListContract.ItineraryListEntry.TABLE_NAME,
+                null,
+                null,
+                null,
+                null,
+                null,
+                ItineraryListContract.ItineraryListEntry.COLUMN_PLACE_NAME
+        );
+    }
 
 
     @Override
-    public  boolean onCreateOptionsMenu(Menu menu){
+    public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.main, menu);
         return true;
     }
@@ -129,7 +139,7 @@ public class ItineraryActivity extends AppCompatActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
 
         int menuItemSelected = item.getItemId();
-        if(menuItemSelected == R.id.action_search){
+        if (menuItemSelected == R.id.action_search) {
             Context context = ItineraryActivity.this;
             String message = "Search clicked";
             Toast.makeText(context, message, Toast.LENGTH_LONG).show();
