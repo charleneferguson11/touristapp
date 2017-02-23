@@ -17,8 +17,6 @@ import android.widget.TextView;
 
 public class ItineraryAdapter extends RecyclerView.Adapter<ItineraryAdapter.ItineraryViewHolder> {
 
-// Indicate how many views an adapter will hold.
-    private int mNumberOfItems;
 
  // Stores the cursor
     private Cursor mCursor;
@@ -27,10 +25,9 @@ public class ItineraryAdapter extends RecyclerView.Adapter<ItineraryAdapter.Itin
     private Context mContext;
 
 
-    public ItineraryAdapter(Cursor cursor, int numberOfItems) {
+    public ItineraryAdapter(Cursor cursor) {
 
         mCursor = cursor;
-        mNumberOfItems = numberOfItems;
     }
 
     @Override
@@ -67,7 +64,7 @@ public class ItineraryAdapter extends RecyclerView.Adapter<ItineraryAdapter.Itin
 
     @Override
     public int getItemCount() {
-        return mNumberOfItems;
+        return mCursor.getCount();
     }
  class ItineraryViewHolder extends RecyclerView.ViewHolder{
 

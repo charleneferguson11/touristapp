@@ -21,7 +21,7 @@ public class ItineraryActivity extends AppCompatActivity {
 
     private static final String TAG = "ItineraryActivity";
     // Number of items the view can hold
-    private static final int NUMBER_OF_ITEMS = 10;
+    private int mCount;
     // member that holds the adapter for the itinerary list
     private ItineraryAdapter mAdapter;
     // member that holds recyclerview of the itinerary list
@@ -74,7 +74,7 @@ public class ItineraryActivity extends AppCompatActivity {
 
         Cursor cursor = getAllItineraryData();
 
-        mAdapter = new ItineraryAdapter(cursor, NUMBER_OF_ITEMS);
+        mAdapter = new ItineraryAdapter(cursor);
         mItineraryList.setAdapter(mAdapter);
     }
 
@@ -124,12 +124,14 @@ public class ItineraryActivity extends AppCompatActivity {
             return;
         }
 
+        String editPlacename = mNewPlaceNameEditText.getText().toString();
+        String editPriority = mNewPriorityNameEditText.getText().toString();
 
-        addNewItineraryItem(name,priority);
+        addNewItineraryRecord(editPlacename,editPriority);
     }
 
 
-    public long addNewItineraryItem(String name, String priority){
+    public long addNewItineraryRecord(String name, String priority){
 
         ContentValues contentValues = new ContentValues();
         contentValues.put(ItineraryListContract.ItineraryListEntry.COLUMN_PLACE_NAME, name);

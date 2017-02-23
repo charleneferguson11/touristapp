@@ -14,19 +14,18 @@
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
 
         <EditText
-            android:layout_width="0dp"
-            android:layout_weight="1"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:id="@+id/edit_place_name"
             android:hint="@string/place_name_hint"
             android:textAppearance="@style/TextAppearance.AppCompat.Headline"/>
 
         <EditText
-            android:layout_width="0dp"
-            android:layout_weight="1"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:id="@+id/edit_priority"
             android:hint="@string/priority_hint"
