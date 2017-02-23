@@ -1,5 +1,6 @@
 package dreamteamuk.touristapp;
 
+import android.content.ContentValues;
 import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
@@ -13,6 +14,7 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.EditText;
 import android.widget.Toast;
 
 public class ItineraryActivity extends AppCompatActivity {
@@ -26,6 +28,10 @@ public class ItineraryActivity extends AppCompatActivity {
     private RecyclerView mItineraryList;
     // member that holds the database
     private SQLiteDatabase mItineraryDb;
+    // Edit text field for place name
+    private EditText mNewPlaceNameEditText;
+    // Edit text field for priority
+    private EditText mNewPriorityNameEditText;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -34,8 +40,11 @@ public class ItineraryActivity extends AppCompatActivity {
         Log.d(TAG, "onCreate(Bundle) called");
         setContentView(R.layout.activity_itinerary);
 
-        // Add button to add Itinerary items
+        // Add floating button to add Itinerary items
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
+        // Add edit text to add data
+        mNewPlaceNameEditText = (EditText) findViewById(R.id.edit_place_name);
+        mNewPriorityNameEditText = (EditText) findViewById(R.id.edit_priority);
 
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -65,7 +74,7 @@ public class ItineraryActivity extends AppCompatActivity {
 
         Cursor cursor = getAllItineraryData();
 
-        mAdapter = new ItineraryAdapter( cursor, NUMBER_OF_ITEMS);
+        mAdapter = new ItineraryAdapter(cursor, NUMBER_OF_ITEMS);
         mItineraryList.setAdapter(mAdapter);
     }
 
@@ -108,8 +117,25 @@ public class ItineraryActivity extends AppCompatActivity {
     /**
      * Add item to itinerary list
      */
-    public void addToItineraryList(View view) {
+    public void addToItineraryList(String name, String priority) {
 
+        // If the edit text fields are empty exit method
+        if (mNewPriorityNameEditText.getText().length() == 0 || mNewPlaceNameEditText.getText().length() == 0) {
+            return;
+        }
+
+
+        addNewItineraryItem(name,priority);
+    }
+
+
+    public long addNewItineraryItem(String name, String priority){
+
+        ContentValues contentValues = new ContentValues();
+        contentValues.put(ItineraryListContract.ItineraryListEntry.COLUMN_PLACE_NAME, name);
+        contentValues.put(ItineraryListContract.ItineraryListEntry.COLUMN_PRIORITY, priority);
+
+        return mItineraryDb.insert(ItineraryListContract.ItineraryListEntry.TABLE_NAME, null, contentValues);
     }
 
     /**
