@@ -8,12 +8,15 @@ import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Toast;
 
 public class ItineraryActivity extends AppCompatActivity {
+
+    private  static final String TAG = "ItineraryActivity";
     // Number of items the view can hold
     private static final int NUMBER_OF_ITEMS = 10;
     // member that holds the adapter for the itinerary list
@@ -26,6 +29,8 @@ public class ItineraryActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+// Trace Activity lifecycle
+        Log.d(TAG, "onCreate(Bundle) called");
         setContentView(R.layout.activity_itinerary);
 
         // Add button to add Itinerary items
@@ -36,7 +41,7 @@ public class ItineraryActivity extends AppCompatActivity {
             public void onClick(View view) {
                 //Create an itinerary intent to start Activity that adds a new place to Itinerary
                 Intent intentItinerary;
-                intentItinerary = new Intent(ItineraryActivity.this, AddToItinearyActivity.class);
+                intentItinerary = new Intent(ItineraryActivity.this, AddToItineraryActivity.class);
 
                 // Verify that the intent will resolve to an activity
                 if (intentItinerary.resolveActivity(getPackageManager()) != null) {
@@ -59,6 +64,45 @@ public class ItineraryActivity extends AppCompatActivity {
         mAdapter = new ItineraryAdapter(NUMBER_OF_ITEMS);
         mItineraryList.setAdapter(mAdapter);
     }
+
+
+    /**
+     * Log Activity lifecycle
+    */
+
+    @Override
+    public void onStart() {
+        super.onStart();
+        Log.d(TAG, "onStart() called");
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        Log.d(TAG, "onPause() called");
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        Log.d(TAG, "onResume() called");
+    }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+        Log.d(TAG, "onStop() called");
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        Log.d(TAG, "onDestroy() called");
+    }
+
+
+
+
 
     /**
      * Add item to itinerary list

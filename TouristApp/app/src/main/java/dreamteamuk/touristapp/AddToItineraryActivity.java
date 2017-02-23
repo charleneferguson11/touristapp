@@ -3,7 +3,7 @@ package dreamteamuk.touristapp;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 
-public class AddToItinearyActivity extends AppCompatActivity {
+public class AddToItineraryActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

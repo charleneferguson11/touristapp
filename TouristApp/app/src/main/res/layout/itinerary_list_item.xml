@@ -13,37 +13,34 @@
         android:orientation="horizontal">
 
     <TextView
-        android:layout_width="0dp"
-        android:layout_weight="1"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_gravity="center_vertical"
         android:id="@+id/place"
+        android:paddingTop="8dp"
         android:paddingLeft="16dp"
         android:textSize="16sp"
-        android:fontFamily="monospace"
+        android:fontFamily="roboto"
         android:text="place"/>
 
     <TextView
-        android:layout_width="0dp"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_weight="1"
-        android:layout_gravity="center_vertical"
         android:id="@+id/priority"
         android:textSize="16sp"
-        android:fontFamily="monospace"
+        android:fontFamily="roboto"
         android:text="priority"
-        android:paddingLeft="16dp"/>
+        android:paddingLeft="72dp"
+        android:paddingRight="16dp"/>
 
     <TextView
-        android:layout_width="0dp"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_weight="1"
-        android:layout_gravity="center_vertical"
         android:id="@+id/item_index"
         android:textSize="16sp"
-        android:fontFamily="monospace"
+        android:fontFamily="roboto"
         android:text="index"
-        android:paddingLeft="16dp"/>
+        android:paddingLeft="16dp"
+        android:paddingRight="16dp"/>
 
     </LinearLayout>
 
