@@ -66,6 +66,25 @@ public class ItineraryAdapter extends RecyclerView.Adapter<ItineraryAdapter.Itin
     public int getItemCount() {
         return mCursor.getCount();
     }
+
+
+    /*
+    * Updates the UI with the new cursor data
+    * */
+    public void swapCursor (Cursor paramCursor){
+        if(mCursor != null){
+            mCursor.close();
+        }
+
+        mCursor = paramCursor ;
+
+        if(paramCursor != null){
+            this.notifyDataSetChanged();
+        }
+
+    }
+
+
  class ItineraryViewHolder extends RecyclerView.ViewHolder{
 
      // Will display the place in the list

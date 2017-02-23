@@ -7,45 +7,37 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     android:padding="16dp"
-
-
     tools:context="dreamteamuk.touristapp.ItineraryActivity">
 
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical">
+        android:layout_height="wrap_content">
 
         <EditText
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
             android:id="@+id/edit_place_name"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
             android:hint="@string/place_name_hint"
             android:textAppearance="@style/TextAppearance.AppCompat.Headline"/>
 
         <EditText
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
             android:id="@+id/edit_priority"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
             android:hint="@string/priority_hint"
-            android:textAppearance="@style/TextAppearance.AppCompat.Headline"
-            />
-
+            android:textAppearance="@style/TextAppearance.AppCompat.Headline"/>
 
     </LinearLayout>
 
-
-
     <android.support.v7.widget.RecyclerView
+        android:id="@+id/rv_itinerary"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:id="@+id/rv_itinerary">
+        android:layout_height="match_parent">
 
     </android.support.v7.widget.RecyclerView>
-
-
-
 
     <android.support.design.widget.FloatingActionButton
         android:id="@+id/fab"

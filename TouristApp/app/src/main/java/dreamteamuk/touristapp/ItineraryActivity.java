@@ -128,6 +128,12 @@ public class ItineraryActivity extends AppCompatActivity {
         String editPriority = mNewPriorityNameEditText.getText().toString();
 
         addNewItineraryRecord(editPlacename,editPriority);
+
+        mAdapter.swapCursor(getAllItineraryData());
+
+        mNewPlaceNameEditText.clearFocus();
+        mNewPlaceNameEditText.getText().clear();
+        mNewPriorityNameEditText.getText().clear();
     }
 
 
