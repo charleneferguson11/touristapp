@@ -30,7 +30,7 @@ public class ItineraryActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-// Trace Activity lifecycle
+        // Trace Activity lifecycle
         Log.d(TAG, "onCreate(Bundle) called");
         setContentView(R.layout.activity_itinerary);
 
@@ -65,7 +65,7 @@ public class ItineraryActivity extends AppCompatActivity {
 
         Cursor cursor = getAllItineraryData();
 
-        mAdapter = new ItineraryAdapter(NUMBER_OF_ITEMS);
+        mAdapter = new ItineraryAdapter( cursor, NUMBER_OF_ITEMS);
         mItineraryList.setAdapter(mAdapter);
     }
 

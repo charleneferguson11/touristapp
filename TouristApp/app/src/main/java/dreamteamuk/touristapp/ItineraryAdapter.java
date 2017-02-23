@@ -10,6 +10,7 @@ import android.widget.TextView;
 
 /**
  * Created by charlene on 17/02/2017.
+ * This class populates the items of the recycler view.
  */
 
 
@@ -26,7 +27,9 @@ public class ItineraryAdapter extends RecyclerView.Adapter<ItineraryAdapter.Itin
     private Context mContext;
 
 
-    public ItineraryAdapter(int numberOfItems) {
+    public ItineraryAdapter(Cursor cursor, int numberOfItems) {
+
+        mCursor = cursor;
         mNumberOfItems = numberOfItems;
     }
 
@@ -48,7 +51,15 @@ public class ItineraryAdapter extends RecyclerView.Adapter<ItineraryAdapter.Itin
 
     @Override
     public void onBindViewHolder(ItineraryViewHolder holder, int position) {
-        holder.bind(position);
+
+        if(!mCursor.moveToPosition(position)){
+            return;
+        }
+
+        String placeName = mCursor.getString(mCursor.getColumnIndex(ItineraryListContract.ItineraryListEntry.COLUMN_PLACE_NAME));
+        String priority = mCursor.getString(mCursor.getColumnIndex(ItineraryListContract.ItineraryListEntry.COLUMN_PRIORITY));
+
+        holder.bind(placeName, priority,position);
 
     }
 
@@ -82,7 +93,10 @@ public class ItineraryAdapter extends RecyclerView.Adapter<ItineraryAdapter.Itin
 
      }
 
-     void bind(int listIndex){
+     void bind(String placeName, String priority, int listIndex){
+
+         placeItineraryListView.setText(placeName);
+         priorityItineraryListView.setText(priority);
          itemIndexItineraryListView.setText(String.valueOf(listIndex));
      }
 
