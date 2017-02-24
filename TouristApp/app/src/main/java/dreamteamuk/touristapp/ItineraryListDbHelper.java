@@ -9,7 +9,7 @@ import android.database.sqlite.SQLiteOpenHelper;
  * This class creates the database and ensures that the schemer is updated when required.
  */
 
-public class ItineraryListDbHelper extends SQLiteOpenHelper{
+public class ItineraryListDbHelper extends SQLiteOpenHelper {
 
     //    Database name
     private static final String DATABASE_NAME = "itinerarylist.db";

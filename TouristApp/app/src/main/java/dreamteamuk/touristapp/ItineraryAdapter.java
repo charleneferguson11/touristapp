@@ -14,14 +14,13 @@ import android.widget.TextView;
  */
 
 
-
 public class ItineraryAdapter extends RecyclerView.Adapter<ItineraryAdapter.ItineraryViewHolder> {
 
 
- // Stores the cursor
+    // Stores the cursor
     private Cursor mCursor;
 
- // Stores the current
+    // Stores the current activity
     private Context mContext;
 
 
@@ -37,7 +36,7 @@ public class ItineraryAdapter extends RecyclerView.Adapter<ItineraryAdapter.Itin
         Context context = viewGroup.getContext();
         int layoutForEachListItem = R.layout.itinerary_list_item;
         LayoutInflater inflater = LayoutInflater.from(context);
-        boolean shouldAttachImmediately = false ;
+        boolean shouldAttachImmediately = false;
 
         View view = inflater.inflate(layoutForEachListItem, viewGroup, shouldAttachImmediately);
 
@@ -49,17 +48,16 @@ public class ItineraryAdapter extends RecyclerView.Adapter<ItineraryAdapter.Itin
     @Override
     public void onBindViewHolder(ItineraryViewHolder holder, int position) {
 
-        if(!mCursor.moveToPosition(position)){
+        if (!mCursor.moveToPosition(position)) {
             return;
         }
 
         String placeName = mCursor.getString(mCursor.getColumnIndex(ItineraryListContract.ItineraryListEntry.COLUMN_PLACE_NAME));
         String priority = mCursor.getString(mCursor.getColumnIndex(ItineraryListContract.ItineraryListEntry.COLUMN_PRIORITY));
 
-        holder.bind(placeName, priority,position);
+        holder.bind(placeName, priority, position);
 
     }
-
 
 
     @Override
@@ -71,53 +69,52 @@ public class ItineraryAdapter extends RecyclerView.Adapter<ItineraryAdapter.Itin
     /*
     * Updates the UI with the new cursor data
     * */
-    public void swapCursor (Cursor paramCursor){
-        if(mCursor != null){
+    public void swapCursor(Cursor paramCursor) {
+        if (mCursor != null) {
             mCursor.close();
         }
 
-        mCursor = paramCursor ;
+        mCursor = paramCursor;
 
-        if(paramCursor != null){
+        if (paramCursor != null) {
             this.notifyDataSetChanged();
         }
 
     }
 
 
- class ItineraryViewHolder extends RecyclerView.ViewHolder{
+    class ItineraryViewHolder extends RecyclerView.ViewHolder {
 
-     // Will display the place in the list
-     TextView placeItineraryListView;
-     // Will display the priority of the place
-     TextView priorityItineraryListView;
-     // Will display the list index
-     TextView itemIndexItineraryListView;
+        // Will display the place in the list
+        TextView placeItineraryListView;
+        // Will display the priority of the place
+        TextView priorityItineraryListView;
+        // Will display the list index
+        TextView itemIndexItineraryListView;
 
-     /**
-      * Create a view holder which reduces the number of calls to findViewById
-      * improving performance.
-      * @param itemView
-      */
+        /**
+         * Create a view holder which reduces the number of calls to findViewById
+         * improving performance.
+         *
+         * @param itemView
+         */
 
-     public ItineraryViewHolder(View itemView) {
-         super(itemView);
+        public ItineraryViewHolder(View itemView) {
+            super(itemView);
 
-         placeItineraryListView = (TextView) itemView.findViewById(R.id.place);
-         priorityItineraryListView = (TextView) itemView.findViewById(R.id.priority);
-         itemIndexItineraryListView = (TextView) itemView.findViewById(R.id.item_index);
+            placeItineraryListView = (TextView) itemView.findViewById(R.id.place);
+            priorityItineraryListView = (TextView) itemView.findViewById(R.id.priority);
+            itemIndexItineraryListView = (TextView) itemView.findViewById(R.id.item_index);
 
-     }
+        }
 
-     void bind(String placeName, String priority, int listIndex){
+        void bind(String placeName, String priority, int listIndex) {
 
-         placeItineraryListView.setText(placeName);
-         priorityItineraryListView.setText(priority);
-         itemIndexItineraryListView.setText(String.valueOf(listIndex));
-     }
+            placeItineraryListView.setText(placeName);
+            priorityItineraryListView.setText(priority);
+            itemIndexItineraryListView.setText(String.valueOf(listIndex));
+        }
 
- }
-
-
+    }
 
 }

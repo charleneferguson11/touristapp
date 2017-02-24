@@ -51,7 +51,7 @@ public class ItineraryActivity extends AppCompatActivity {
             public void onClick(View view) {
                 //Create an itinerary intent to start Activity that adds a new place to Itinerary
                 Intent intentItinerary;
-                intentItinerary = new Intent(ItineraryActivity.this, AddToItineraryActivity.class);
+                intentItinerary = new Intent(ItineraryActivity.this, AddItineraryActivity.class);
 
                 // Verify that the intent will resolve to an activity
                 if (intentItinerary.resolveActivity(getPackageManager()) != null) {
@@ -127,7 +127,9 @@ public class ItineraryActivity extends AppCompatActivity {
         String editPlacename = mNewPlaceNameEditText.getText().toString();
         String editPriority = mNewPriorityNameEditText.getText().toString();
 
-        addNewItineraryRecord(editPlacename,editPriority);
+        insertItineraryRecord(editPlacename, editPriority);
+
+        finish();
 
         mAdapter.swapCursor(getAllItineraryData());
 
@@ -136,14 +138,34 @@ public class ItineraryActivity extends AppCompatActivity {
         mNewPriorityNameEditText.getText().clear();
     }
 
-
-    public long addNewItineraryRecord(String name, String priority){
+    /**
+     * Adds a new record to Itinerary table
+     */
+    public long insertItineraryRecord(String name, String priority) {
 
         ContentValues contentValues = new ContentValues();
         contentValues.put(ItineraryListContract.ItineraryListEntry.COLUMN_PLACE_NAME, name);
         contentValues.put(ItineraryListContract.ItineraryListEntry.COLUMN_PRIORITY, priority);
 
-        return mItineraryDb.insert(ItineraryListContract.ItineraryListEntry.TABLE_NAME, null, contentValues);
+        long newRowId = mItineraryDb.insert(ItineraryListContract.ItineraryListEntry.TABLE_NAME, null, contentValues);
+
+        if(newRowId == -1){
+            Toast.makeText(this, "Error with saving itinerary", Toast.LENGTH_SHORT).show();
+        } else{
+            Toast.makeText(this, "Itinerary saved", Toast.LENGTH_SHORT).show();
+        }
+
+        return newRowId;
+    }
+
+
+    /**
+     * Removes a record from the itinerary list table
+     */
+
+    public boolean removeItineraryRecord() {
+
+        return false;
     }
 
     /**
@@ -173,13 +195,29 @@ public class ItineraryActivity extends AppCompatActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
 
         int menuItemSelected = item.getItemId();
-        if (menuItemSelected == R.id.action_search) {
-            Context context = ItineraryActivity.this;
-            String message = "Search clicked";
-            Toast.makeText(context, message, Toast.LENGTH_LONG).show();
+
+        switch (item.getItemId()) {
+            case R.id.action_search:
+                Context context = ItineraryActivity.this;
+                String message = "Search clicked";
+                Toast.makeText(context, message, Toast.LENGTH_LONG).show();
+                return true;
+
+            case R.id.action_save:
+                context = ItineraryActivity.this;
+                message = "Save clicked";
+                Toast.makeText(context, message, Toast.LENGTH_LONG).show();
+                return true;
+
+            case R.id.action_settings:
+                context = ItineraryActivity.this;
+                message = "Settings clicked";
+                Toast.makeText(context, message, Toast.LENGTH_LONG).show();
+                return true;
         }
-        return super.onOptionsItemSelected(item);
-    }
+            return super.onOptionsItemSelected(item);
+        }
+
 
 
 }
