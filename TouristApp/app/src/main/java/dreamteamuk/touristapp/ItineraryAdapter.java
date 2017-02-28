@@ -54,8 +54,11 @@ public class ItineraryAdapter extends RecyclerView.Adapter<ItineraryAdapter.Itin
 
         String placeName = mCursor.getString(mCursor.getColumnIndex(ItineraryListContract.ItineraryListEntry.COLUMN_PLACE_NAME));
         String priority = mCursor.getString(mCursor.getColumnIndex(ItineraryListContract.ItineraryListEntry.COLUMN_PRIORITY));
-
+        Long id = mCursor.getLong(mCursor.getColumnIndex(ItineraryListContract.ItineraryListEntry._ID));
         holder.bind(placeName, priority, position);
+
+        //Store the id within a tag so that it is not displayed to the user
+        holder.itemView.setTag(id);
 
     }
 

@@ -10,6 +10,7 @@ import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.helper.ItemTouchHelper;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -76,6 +77,24 @@ public class ItineraryActivity extends AppCompatActivity {
 
         mAdapter = new ItineraryAdapter(cursor);
         mItineraryList.setAdapter(mAdapter);
+
+
+        // Add feature to delete itinerary items by using the swipe functionality.
+
+        new ItemTouchHelper(new ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.LEFT | ItemTouchHelper.RIGHT){
+            public  boolean onMove(RecyclerView recyclerView, RecyclerView.ViewHolder viewHolder, RecyclerView.ViewHolder target){
+return false;
+            }
+
+            @Override
+            public void onSwiped(RecyclerView.ViewHolder viewHolder, int direction) {
+                long id = (long) viewHolder.itemView.getTag();
+                removeItinerary(id);
+                mAdapter.swapCursor(getAllItineraryData());
+
+            }
+        }).attachToRecyclerView(mItineraryList);
+
     }
 
 
@@ -127,7 +146,7 @@ public class ItineraryActivity extends AppCompatActivity {
         String editPlacename = mNewPlaceNameEditText.getText().toString();
         String editPriority = mNewPriorityNameEditText.getText().toString();
 
-        insertItineraryRecord(editPlacename, editPriority);
+         addItinerary(editPlacename, editPriority);
 
         finish();
 
@@ -141,7 +160,7 @@ public class ItineraryActivity extends AppCompatActivity {
     /**
      * Adds a new record to Itinerary table
      */
-    public long insertItineraryRecord(String name, String priority) {
+    public long addItinerary(String name, String priority) {
 
         ContentValues contentValues = new ContentValues();
         contentValues.put(ItineraryListContract.ItineraryListEntry.COLUMN_PLACE_NAME, name);
@@ -156,6 +175,12 @@ public class ItineraryActivity extends AppCompatActivity {
         }
 
         return newRowId;
+    }
+
+    public void removeItinerary(long id){
+
+        mItineraryDb.delete(ItineraryListContract.ItineraryListEntry.TABLE_NAME, ItineraryListContract.ItineraryListEntry._ID + "=" + id, null);
+
     }
 
 
