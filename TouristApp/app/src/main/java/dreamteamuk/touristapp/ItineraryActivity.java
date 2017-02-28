@@ -2,11 +2,9 @@ package dreamteamuk.touristapp;
 
 import android.content.ContentValues;
 import android.content.Context;
-import android.content.Intent;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
-import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -42,12 +40,14 @@ public class ItineraryActivity extends AppCompatActivity {
         setContentView(R.layout.activity_itinerary);
 
         // Add floating button to add Itinerary items
-        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
+      //  FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
         // Add edit text to add data
         mNewPlaceNameEditText = (EditText) findViewById(R.id.edit_place_name);
         mNewPriorityNameEditText = (EditText) findViewById(R.id.edit_priority);
 
-        fab.setOnClickListener(new View.OnClickListener() {
+        mItineraryList = (RecyclerView) findViewById(R.id.rv_itinerary);
+
+    /*    fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 //Create an itinerary intent to start Activity that adds a new place to Itinerary
@@ -60,10 +60,9 @@ public class ItineraryActivity extends AppCompatActivity {
                 }
 
             }
-        });
+        });*/
 
 
-        mItineraryList = (RecyclerView) findViewById(R.id.rv_itinerary);
 
         LinearLayoutManager layoutManager = new LinearLayoutManager(this);
         mItineraryList.setLayoutManager(layoutManager);
@@ -75,15 +74,15 @@ public class ItineraryActivity extends AppCompatActivity {
 
         Cursor cursor = getAllItineraryData();
 
-        mAdapter = new ItineraryAdapter(cursor);
+        mAdapter = new ItineraryAdapter(this, cursor);
         mItineraryList.setAdapter(mAdapter);
 
 
         // Add feature to delete itinerary items by using the swipe functionality.
 
-        new ItemTouchHelper(new ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.LEFT | ItemTouchHelper.RIGHT){
-            public  boolean onMove(RecyclerView recyclerView, RecyclerView.ViewHolder viewHolder, RecyclerView.ViewHolder target){
-return false;
+        new ItemTouchHelper(new ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.LEFT | ItemTouchHelper.RIGHT) {
+            public boolean onMove(RecyclerView recyclerView, RecyclerView.ViewHolder viewHolder, RecyclerView.ViewHolder target) {
+                return false;
             }
 
             @Override
@@ -136,7 +135,7 @@ return false;
     /**
      * Add item to itinerary list
      */
-    public void addToItineraryList(String name, String priority) {
+    public void addToItineraryList(View view) {
 
         // If the edit text fields are empty exit method
         if (mNewPriorityNameEditText.getText().length() == 0 || mNewPlaceNameEditText.getText().length() == 0) {
@@ -146,9 +145,7 @@ return false;
         String editPlacename = mNewPlaceNameEditText.getText().toString();
         String editPriority = mNewPriorityNameEditText.getText().toString();
 
-         addItinerary(editPlacename, editPriority);
-
-        finish();
+        addItinerary(editPlacename, editPriority);
 
         mAdapter.swapCursor(getAllItineraryData());
 
@@ -168,29 +165,23 @@ return false;
 
         long newRowId = mItineraryDb.insert(ItineraryListContract.ItineraryListEntry.TABLE_NAME, null, contentValues);
 
-        if(newRowId == -1){
+        if (newRowId == -1) {
             Toast.makeText(this, "Error with saving itinerary", Toast.LENGTH_SHORT).show();
-        } else{
+        } else {
             Toast.makeText(this, "Itinerary saved", Toast.LENGTH_SHORT).show();
         }
 
         return newRowId;
     }
 
-    public void removeItinerary(long id){
-
-        mItineraryDb.delete(ItineraryListContract.ItineraryListEntry.TABLE_NAME, ItineraryListContract.ItineraryListEntry._ID + "=" + id, null);
-
-    }
-
 
     /**
      * Removes a record from the itinerary list table
      */
+    public boolean removeItinerary(long id) {
 
-    public boolean removeItineraryRecord() {
+        return mItineraryDb.delete(ItineraryListContract.ItineraryListEntry.TABLE_NAME, ItineraryListContract.ItineraryListEntry._ID + "=" + id, null) > 0 ;
 
-        return false;
     }
 
     /**
@@ -240,9 +231,8 @@ return false;
                 Toast.makeText(context, message, Toast.LENGTH_LONG).show();
                 return true;
         }
-            return super.onOptionsItemSelected(item);
-        }
-
+        return super.onOptionsItemSelected(item);
+    }
 
 
 }

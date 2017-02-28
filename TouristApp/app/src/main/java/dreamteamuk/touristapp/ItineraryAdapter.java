@@ -19,14 +19,15 @@ public class ItineraryAdapter extends RecyclerView.Adapter<ItineraryAdapter.Itin
 
     // Stores the cursor
     private Cursor mCursor;
-
     // Stores the current activity
     private Context mContext;
 
 
-    public ItineraryAdapter(Cursor cursor) {
+    public ItineraryAdapter(Context context, Cursor cursor) {
 
         mCursor = cursor;
+        mContext = context;
+
     }
 
     @Override

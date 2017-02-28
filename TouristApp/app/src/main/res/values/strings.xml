@@ -6,4 +6,5 @@
     <string name="search">Search</string>
     <string name="priority_hint">priority</string>
     <string name="place_name_hint">place name</string>
+    <string name="add_button">Add</string>
 </resources>
