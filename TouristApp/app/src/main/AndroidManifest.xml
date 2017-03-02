@@ -17,6 +17,10 @@
         </activity>
         <activity android:name=".AddItineraryActivity">
         </activity>
+        <activity android:name=".SettingsActivity"
+            android:label="@string/action_settings"
+            android:parentActivityName=".ItineraryActivity">
+        </activity>
     </application>
 
 </manifest>

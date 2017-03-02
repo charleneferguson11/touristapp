@@ -2,6 +2,7 @@ package dreamteamuk.touristapp;
 
 import android.content.ContentValues;
 import android.content.Context;
+import android.content.Intent;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
@@ -40,7 +41,7 @@ public class ItineraryActivity extends AppCompatActivity {
         setContentView(R.layout.activity_itinerary);
 
         // Add floating button to add Itinerary items
-      //  FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
+        //  FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
         // Add edit text to add data
         mNewPlaceNameEditText = (EditText) findViewById(R.id.edit_place_name);
         mNewPriorityNameEditText = (EditText) findViewById(R.id.edit_priority);
@@ -61,7 +62,6 @@ public class ItineraryActivity extends AppCompatActivity {
 
             }
         });*/
-
 
 
         LinearLayoutManager layoutManager = new LinearLayoutManager(this);
@@ -180,7 +180,7 @@ public class ItineraryActivity extends AppCompatActivity {
      */
     public boolean removeItinerary(long id) {
 
-        return mItineraryDb.delete(ItineraryListContract.ItineraryListEntry.TABLE_NAME, ItineraryListContract.ItineraryListEntry._ID + "=" + id, null) > 0 ;
+        return mItineraryDb.delete(ItineraryListContract.ItineraryListEntry.TABLE_NAME, ItineraryListContract.ItineraryListEntry._ID + "=" + id, null) > 0;
 
     }
 
@@ -227,8 +227,8 @@ public class ItineraryActivity extends AppCompatActivity {
 
             case R.id.action_settings:
                 context = ItineraryActivity.this;
-                message = "Settings clicked";
-                Toast.makeText(context, message, Toast.LENGTH_LONG).show();
+                Intent startSettingsActivity = new Intent(context, SettingsActivity.class);
+                startActivity(startSettingsActivity);
                 return true;
         }
         return super.onOptionsItemSelected(item);
