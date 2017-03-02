@@ -12,7 +12,7 @@ public class SettingsActivity extends AppCompatActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
 
-        // Back button returns to the previous activity
+        // Back button returns to or navigates back from this task.
         if (id == android.R.id.home){
             NavUtils.navigateUpFromSameTask(this);
         }
