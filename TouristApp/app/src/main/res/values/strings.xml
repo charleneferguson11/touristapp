@@ -9,7 +9,7 @@
     <string name="add_button">Add</string>
     <string name="hello_blank_fragment">Hello</string>
     <!-- Label for order-by distance option [CHAR LIMIT=20] -->
-    <string name="settings_min_distance_label">Distance</string>
+    <string name="settings_min_distance_label">Minimum Distance</string>
     <string name="settings_min_distance_key" translatable="false">distance</string>
     <string name="settings_min_distance_default" translatable="false">2</string>
 
