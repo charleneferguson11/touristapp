@@ -70,9 +70,9 @@ public class ItineraryAdapter extends RecyclerView.Adapter<ItineraryAdapter.Itin
     }
 
 
-    /*
+    /**
     * Updates the UI with the new cursor data
-    * */
+    */
     public void swapCursor(Cursor paramCursor) {
         if (mCursor != null) {
             mCursor.close();
