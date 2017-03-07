@@ -7,9 +7,10 @@
     <string name="priority_hint">priority</string>
     <string name="place_name_hint">place name</string>
     <string name="add_button">Add</string>
+    <string name="hello_blank_fragment">Hello</string>
     <!-- Label for order-by distance option [CHAR LIMIT=20] -->
     <string name="settings_min_distance_label">Distance</string>
-    <string name="settings_min_distance_value" translatable="false">distance</string>
+    <string name="settings_min_distance_key" translatable="false">distance</string>
     <string name="settings_min_distance_default" translatable="false">2</string>
 
     <!-- Label for order-by price option [CHAR LIMIT=20] -->
@@ -19,5 +20,5 @@
     <!-- Strings For Order-By Preference [CHAR LIMIT=30] -->
     <string name="settings_order_by_label">Order By</string>
     <string name="settings_order_by_key" translatable="false">order_by</string>
-    <string name="settings_order_by_default" translatable="false">@string/settings_min_distance_value</string>
+    <string name="settings_order_by_default" translatable="false">@string/settings_min_distance_key</string>
 </resources>

@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
-                  android:title="@string/settings_title">
+                  android:title="@string/action_settings">
 
-    <CheckBoxPreference
+<!--    <CheckBoxPreference
         android:defaultValue="true"
         android:key="show_price"
         android:summaryOff="Hidden"
         android:summaryOn="Shown"
-        android:title="Price"/>
+        android:title="Price"/>-->
 
     <ListPreference
         android:defaultValue="@string/settings_order_by_default"
@@ -17,10 +17,10 @@
         android:title="@string/settings_order_by_label" />
 
     <EditTextPreference
-        android:defaultValue="@string/settings_min_magnitude_default"
+        android:defaultValue="@string/settings_min_distance_default"
         android:inputType="numberDecimal"
-        android:key="@string/settings_min_magnitude_key"
+        android:key="@string/settings_min_distance_key"
         android:selectAllOnFocus="true"
-        android:title="@string/settings_min_magnitude_label" />
+        android:title="@string/settings_min_distance_label" />
 
 </PreferenceScreen>
