@@ -323,6 +323,7 @@ public class ItineraryActivity extends AppCompatActivity implements GoogleApiCli
     private void findLocation() {
         mLocationRequest = LocationRequest.create();
         mLocationRequest.setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY);
+        mLocationRequest.setNumUpdates(1);
         mLocationRequest.setInterval(1000);
     }
 
