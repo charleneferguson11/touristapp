@@ -3,7 +3,9 @@
     <string name="action_settings">Settings</string>
     <string name="action_save">Save</string>
     <string name="action_delete">Delete</string>
+    <string name="action_places">Place</string>
     <string name="search">Search</string>
+    <string name="output">Output</string>
     <string name="priority_hint">priority</string>
     <string name="place_name_hint">place name</string>
     <string name="add_button">Add</string>
