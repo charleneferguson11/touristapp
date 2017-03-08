@@ -28,8 +28,8 @@ import android.widget.Toast;
 
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
-import com.google.android.gms.location.LocationListener;
 import com.google.android.gms.location.LocationRequest;
+import com.google.android.gms.location.LocationServices;
 
 import static com.google.android.gms.location.LocationServices.API;
 
@@ -63,6 +63,7 @@ public class ItineraryActivity extends AppCompatActivity implements GoogleApiCli
     private GoogleApiClient mGoogleApiClient;
     // Reference to Location request
     private LocationRequest mLocationRequest;
+    private Location mCurrentLocation;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -87,7 +88,7 @@ public class ItineraryActivity extends AppCompatActivity implements GoogleApiCli
         mNewPlaceNameEditText = (EditText) findViewById(R.id.edit_place_name);
         mNewPriorityNameEditText = (EditText) findViewById(R.id.edit_priority);
 
-        // Add text view to display composed url
+        // Add text view to display location data
         mOutputTextView = (TextView) findViewById(R.id.display_output_text_view);
         mItineraryList = (RecyclerView) findViewById(R.id.rv_itinerary);
 
@@ -151,8 +152,9 @@ public class ItineraryActivity extends AppCompatActivity implements GoogleApiCli
         Log.d(TAG, "onStart() called");
 
         // Connect the client
-        if(mGoogleApiClient != null){
-        mGoogleApiClient.connect();}
+        if (mGoogleApiClient != null) {
+            mGoogleApiClient.connect();
+        }
 
     }
 
@@ -160,6 +162,7 @@ public class ItineraryActivity extends AppCompatActivity implements GoogleApiCli
     public void onPause() {
         super.onPause();
         Log.d(TAG, "onPause() called");
+        stopLocationUpdates();
     }
 
     @Override
@@ -170,10 +173,11 @@ public class ItineraryActivity extends AppCompatActivity implements GoogleApiCli
 
     @Override
     public void onStop() {
-        //Disconnect the client
-        mGoogleApiClient.disconnect();
         super.onStop();
         Log.d(TAG, "onStop() called");
+        //Disconnect the client
+        mGoogleApiClient.disconnect();
+
     }
 
     @Override
@@ -332,32 +336,27 @@ public class ItineraryActivity extends AppCompatActivity implements GoogleApiCli
         if (result == PackageManager.PERMISSION_GRANTED) {
 
             findLocation();
-           com.google.android.gms.location.LocationServices.FusedLocationApi.requestLocationUpdates(mGoogleApiClient, mLocationRequest, new LocationListener() {
-                @Override
-                public void onLocationChanged(Location location) {
-                    Log.i(TAG, "Got a location :" + location);
-                }
-            });
+            com.google.android.gms.location.LocationServices.FusedLocationApi.requestLocationUpdates(mGoogleApiClient, mLocationRequest, this);
 
-        } else{
+        } else {
             // Location permission has not been granted
 
             // Provide additional information to user for the use of the permission.
-            if(ActivityCompat.shouldShowRequestPermissionRationale(this, LOCATION_PERMISSIONS[0])){
+            if (ActivityCompat.shouldShowRequestPermissionRationale(this, LOCATION_PERMISSIONS[0])) {
                 Toast.makeText(this, "Location permission is needed to get nearby places.", Toast.LENGTH_SHORT).show();
             }
 
             // Request location permission
-            ActivityCompat.requestPermissions(this,LOCATION_PERMISSIONS, REQUEST_LOCATION_PERMISSIONS);
+            ActivityCompat.requestPermissions(this, LOCATION_PERMISSIONS, REQUEST_LOCATION_PERMISSIONS);
         }
-
-
 
 
     }
 
+
     /**
      * Response to user request to grant permissions
+     *
      * @param grantResults
      * @param permissions
      * @param requestCode
@@ -366,14 +365,13 @@ public class ItineraryActivity extends AppCompatActivity implements GoogleApiCli
     public void onRequestPermissionsResult(int requestCode,
                                            String[] permissions, int[] grantResults) {
         switch (requestCode) {
-            case  REQUEST_LOCATION_PERMISSIONS: {
+            case REQUEST_LOCATION_PERMISSIONS: {
                 // If request is cancelled, the result arrays are empty.
                 int result = ContextCompat.checkSelfPermission(this, LOCATION_PERMISSIONS[0]);
-                if (result == PackageManager.PERMISSION_GRANTED)
-                {
+                if (result == PackageManager.PERMISSION_GRANTED) {
                     findLocation();
 
-                }else{
+                } else {
                     Toast.makeText(this, "Permisison was not granted", Toast.LENGTH_SHORT).show();
                 }
                 return;
@@ -397,9 +395,15 @@ public class ItineraryActivity extends AppCompatActivity implements GoogleApiCli
 
     @Override
     public void onLocationChanged(Location location) {
-        mOutputTextView.setText(location.toString());
+        //mOutputTextView.setText(location.toString());
+        mOutputTextView.append(String.valueOf(location.getLatitude()));
+        mOutputTextView.append(String.valueOf(location.getLongitude()));
     }
 
+    protected void stopLocationUpdates() {
+        LocationServices.FusedLocationApi.removeLocationUpdates(
+                mGoogleApiClient, this);
+    }
 
 
 /**
