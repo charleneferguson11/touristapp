@@ -6,6 +6,8 @@
     <string name="action_places">Place</string>
     <string name="search">Search</string>
     <string name="output">Output</string>
+    <string name="latitude">Latitude</string>
+    <string name="longitude">Longitude</string>
     <string name="priority_hint">priority</string>
     <string name="place_name_hint">place name</string>
     <string name="add_button">Add</string>

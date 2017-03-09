@@ -64,6 +64,10 @@ public class ItineraryActivity extends AppCompatActivity implements GoogleApiCli
     // Reference to Location request
     private LocationRequest mLocationRequest;
     private Location mCurrentLocation;
+    private TextView mLatitudeLabelTextView;
+    private TextView mLongitudeLabelTextView;
+    private TextView mLongitudeOutputTextView;
+    private TextView mLatitudeOutputTextView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -89,7 +93,10 @@ public class ItineraryActivity extends AppCompatActivity implements GoogleApiCli
         mNewPriorityNameEditText = (EditText) findViewById(R.id.edit_priority);
 
         // Add text view to display location data
-        mOutputTextView = (TextView) findViewById(R.id.display_output_text_view);
+        mLatitudeLabelTextView = (TextView) findViewById(R.id.latitude_label);
+        mLongitudeLabelTextView = (TextView) findViewById(R.id.longitude_label);
+        mLatitudeOutputTextView = (TextView) findViewById(R.id.latitude_output);
+        mLongitudeOutputTextView = (TextView) findViewById(R.id.longitude_output);
         mItineraryList = (RecyclerView) findViewById(R.id.rv_itinerary);
 
     /*    fab.setOnClickListener(new View.OnClickListener() {
@@ -176,8 +183,9 @@ public class ItineraryActivity extends AppCompatActivity implements GoogleApiCli
         super.onStop();
         Log.d(TAG, "onStop() called");
         //Disconnect the client
-        mGoogleApiClient.disconnect();
-
+        if (mGoogleApiClient.isConnected()) {
+            mGoogleApiClient.disconnect();
+        }
     }
 
     @Override
@@ -208,7 +216,6 @@ public class ItineraryActivity extends AppCompatActivity implements GoogleApiCli
         mAdapter.swapCursor(getAllItineraryData());
 
         // Clear input fields
-        mNewPlaceNameEditText.clearFocus();
         mNewPlaceNameEditText.getText().clear();
         mNewPriorityNameEditText.getText().clear();
     }
@@ -397,8 +404,8 @@ public class ItineraryActivity extends AppCompatActivity implements GoogleApiCli
     @Override
     public void onLocationChanged(Location location) {
         //mOutputTextView.setText(location.toString());
-        mOutputTextView.append(String.valueOf(location.getLatitude()));
-        mOutputTextView.append(String.valueOf(location.getLongitude()));
+        mLatitudeOutputTextView.append(String.valueOf(location.getLatitude()));
+        mLongitudeOutputTextView.append(String.valueOf(location.getLongitude()));
     }
 
     protected void stopLocationUpdates() {

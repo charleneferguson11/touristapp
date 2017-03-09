@@ -12,21 +12,20 @@
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
 
         <EditText
             android:id="@+id/edit_place_name"
-            android:layout_width="0dp"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
             android:hint="@string/place_name_hint"
             android:textAppearance="@style/TextAppearance.AppCompat.Headline"/>
 
         <EditText
             android:id="@+id/edit_priority"
-            android:layout_width="40dp"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
             android:hint="@string/priority_hint"
             android:textAppearance="@style/TextAppearance.AppCompat.Headline"/>
 
@@ -51,12 +50,47 @@
         android:onClick="addToItineraryList"
         android:text="@string/add_button"/>
 
+<LinearLayout
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="horizontal">
     <TextView
-        android:layout_width="match_parent"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:id="@+id/display_output_text_view"
+        android:layout_weight="1"
+        android:id="@+id/latitude_label"
+        android:layout_marginBottom="8dp"
+        android:layout_marginTop="8dp"
+        android:text="@string/latitude"/>
+    <TextView
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:id="@+id/latitude_output"
         android:layout_marginBottom="8dp"
         android:layout_marginTop="8dp"/>
+</LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+    <TextView
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:id="@+id/longitude_label"
+        android:layout_marginBottom="8dp"
+        android:layout_marginTop="8dp"
+        android:text="@string/longitude"/>
+    <TextView
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:id="@+id/longitude_output"
+        android:layout_marginBottom="8dp"
+        android:layout_marginTop="8dp"/>
+    </LinearLayout>
 
     <android.support.v7.widget.RecyclerView
         android:id="@+id/rv_itinerary"
