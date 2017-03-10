@@ -316,6 +316,12 @@ public class ItineraryActivity extends AppCompatActivity implements GoogleApiCli
                 startActivity(startSettingsActivity);
                 return true;
 
+            case R.id.action_map:
+                context = ItineraryActivity.this;
+                Intent startMapActivity = new Intent(context, MapActivity.class);
+                startActivity(startMapActivity);
+                return true;
+
 /*            case R.id.action_places:
                 context = ItineraryActivity.this;
                 Intent startPlacesActivity = new Intent(context, PlacesActivity.class);
@@ -412,6 +418,12 @@ public class ItineraryActivity extends AppCompatActivity implements GoogleApiCli
         LocationServices.FusedLocationApi.removeLocationUpdates(
                 mGoogleApiClient, this);
     }
+
+
+
+
+
+
 
 
 /**
