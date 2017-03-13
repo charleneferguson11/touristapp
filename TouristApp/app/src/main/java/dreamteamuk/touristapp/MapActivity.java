@@ -27,9 +27,22 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
 
     private GoogleMap mMap;
     private Marker mMarker;
-    private Double mLongitude;
-    private Double mLatitude;
+    private double mLongitude;
+    private double mLatitude;
+    private float mCameraZoom;
+    private LatLng mCurrentPosition;
+    private Geocoder mGeocoder;
+    private List<Address> mAddressArrayList;
     private ArrayList<LatLng> mLatLngArrayList;
+    private Address mAddress;
+    private String mFeatureName;
+    private String mAddressLine;
+    private String mLocality;
+    private String mPostCode;
+    private String mCountry;
+
+    private int mSetNumberOfResults;
+
     LatLng britishMuseum = new LatLng(51.519788, -0.126976);
     LatLng nationalGallery = new LatLng(51.509485, -0.128560);
     LatLng nationalHistoryMuseum = new LatLng(51.496869, -0.176356);
@@ -59,10 +72,15 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
             actionbar.setDisplayHomeAsUpEnabled(true);
         }
 
+        mSetNumberOfResults = 1;
+
         Bundle extras = getIntent().getExtras();
-        if (extras != null){
+        if (extras != null) {
             mLatitude = extras.getDouble("latitude");
             mLongitude = extras.getDouble("longitude");
+        } else {
+            mLatitude = 51.535995;
+            mLongitude = -0.129100;
         }
 
         // Obtain the SupportMapFragment and get notified when the map is ready to be used.
@@ -75,8 +93,7 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
     /**
      * Manipulates the map once available.
      * This callback is triggered when the map is ready to be used.
-     * This is where we can add markers or lines, add listeners or move the camera. In this case,
-     * we just add a marker near Sydney, Australia.
+     * This is where we can add markers or lines, add listeners or move the camera.
      * If Google Play services is not installed on the device, the user will be prompted to install
      * it inside the SupportMapFragment. This method will only be triggered once the user has
      * installed Google Play services and returned to the app.
@@ -85,32 +102,51 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
     public void onMapReady(GoogleMap googleMap) {
         mMap = googleMap;
 
-        // Add a marker in Sydney and move the camera
-        // LatLng sydney = new LatLng(-34, 151);
-        // mMap.addMarker(new MarkerOptions().position(sydney).title("Marker in Sydney"));
-        //  mMap.moveCamera(CameraUpdateFactory.newLatLng(sydney));
-        try {
+       /* try {
             getGeoCoordinates();
         } catch (IOException e) {
             e.printStackTrace();
+        }*/
+
+        mCurrentPosition = createLatLng(mLatitude, mLongitude);
+
+        addMapLocation(mCurrentPosition, mCameraZoom = 15);
+
+        // Use reversegeocoding to get details for the marker window
+        try {
+            getGeoAddress();
+        } catch (IOException e) {
+            e.printStackTrace();
         }
+
+
+        getAddressDetails();
+
+        //Add customer markers of current position
+        addCustomMarker(mAddress, mCurrentPosition);
+
+    }
+
+    public LatLng createLatLng(double latitude, double longitude) {
+        return new LatLng(latitude, longitude);
     }
 
     /*
-    * This method creates a latitude and longitude object
-    * Updates the camera on the map
     * This method positions the camera on the map using latitude,
     * longitude and the zoom level of the camera.
-    * @param latitude is coordinate for latitude
-    * @param longitude is coordinate for longitude
+    * @param latlng is the location object
     * @param zoom  is the zoom level for the camera
     * */
 
-    public void addMapLocation(double latitude, double longitude, float zoom) {
-        // Create a latlng object
-        LatLng aLocation = new LatLng(latitude, longitude);
-        //
-        CameraUpdate updateMapCamera = CameraUpdateFactory.newLatLngZoom(aLocation, zoom);
+    public void addMapLocation(LatLng latLng, float zoom) {
+        CameraUpdate updateMapCamera = CameraUpdateFactory.newLatLngZoom(latLng, zoom);
+        // Sets the initial state of the camera
+        mMap.moveCamera(updateMapCamera);
+    }
+
+
+    public void addMapLocation2(double latitude, double longitude, float zoom) {
+        CameraUpdate updateMapCamera = CameraUpdateFactory.newLatLngZoom(new LatLng(latitude, longitude), zoom);
         // Sets the initial state of the camera
         mMap.moveCamera(updateMapCamera);
     }
@@ -118,27 +154,39 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
     /*
     * This method adds a custom marker to the map.
     * @param address: Address object from geocoder api
-    * @param lat: Latitude
-    * @param lng: Longitude
-    *
+    * @param latlng: Latlng object
     * */
-    public void addCustomMarker(Address address, double lat, double lng) {
+    public void addCustomMarker(Address address, LatLng latLng) {
+
         MarkerOptions options = new MarkerOptions()
-                .title(address.getLocality()).position(new LatLng(lat,lng))
+                .title(address.getLocality()).position(latLng)
                 .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_AZURE));
 
         // Add country to info window if available.
-        String country = address.getCountryName();
-        if(country.length() > 0){
-            options.snippet(country);
+
+        if (mCountry.length() > 0) {
+            options.snippet(mCountry);
         }
 
-        mMarker = mMap.addMarker(options);
+        // Add feature name to info window if available.
+        if (mFeatureName.length() > 0) {
+            options.snippet(mFeatureName);
+        }
 
+        // Add marker options to map.
+        mMarker = mMap.addMarker(options);
     }
 
     /*
-    * Implement geocoder api to obtain an Address from a name or postcode search
+    * Get Address details from latitude and longitude
+    * */
+    public void getGeoAddress() throws IOException {
+        mGeocoder = new Geocoder(this);
+        mAddressArrayList = mGeocoder.getFromLocation(mLatitude, mLongitude, mSetNumberOfResults);
+    }
+
+    /*
+    * Implements geocoder api to obtain an Address from a name or postcode search
     * Once we have the address object we obtain the name and latitude and longitude
     * coordinates.
     * */
@@ -156,7 +204,7 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
             double addressLatitude = address.getLatitude();
             double addressLongitude = address.getLongitude();
             // Call the method that positions the camera on the map
-            addMapLocation(addressLatitude, addressLongitude, 15);
+            addMapLocation2(addressLatitude, addressLongitude, 15);
             // Set up the marker's name, colour and position.
             MarkerOptions options = new MarkerOptions()
                     .title(localityName)
@@ -168,6 +216,18 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
 
         }
 
+    }
+
+    /*This method get the address details from the address object*/
+    public void getAddressDetails() {
+        if (mAddressArrayList.size() > 0) {
+            mAddress = mAddressArrayList.get(0);
+            mFeatureName = mAddress.getFeatureName();
+            mAddressLine = mAddress.getAddressLine(0);
+            mLocality = mAddress.getLocality();
+            mPostCode = mAddress.getPostalCode();
+            mCountry = mAddress.getCountryName();
+        }
     }
 
 
@@ -183,13 +243,6 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
 
         return true;
     }
-
-
-
-
-
-
-
 
 
 }
