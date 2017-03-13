@@ -3,7 +3,11 @@ package dreamteamuk.touristapp;
 import android.location.Address;
 import android.location.Geocoder;
 import android.os.Bundle;
-import android.support.v4.app.FragmentActivity;
+import android.support.v4.app.NavUtils;
+import android.support.v7.app.ActionBar;
+import android.support.v7.app.AppCompatActivity;
+import android.view.Menu;
+import android.view.MenuItem;
 
 import com.google.android.gms.maps.CameraUpdate;
 import com.google.android.gms.maps.CameraUpdateFactory;
@@ -16,22 +20,51 @@ import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 
-public class MapActivity extends FragmentActivity implements OnMapReadyCallback {
+public class MapActivity extends AppCompatActivity implements OnMapReadyCallback {
 
     private GoogleMap mMap;
     private Marker mMarker;
+    private Double mLongitude;
+    private Double mLatitude;
+    private ArrayList<LatLng> mLatLngArrayList;
     LatLng britishMuseum = new LatLng(51.519788, -0.126976);
     LatLng nationalGallery = new LatLng(51.509485, -0.128560);
     LatLng nationalHistoryMuseum = new LatLng(51.496869, -0.176356);
     LatLng londonUk = new LatLng(51.535995, -0.129100);
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        int id = item.getItemId();
+
+        // Provides the mechanism for returning to the previous task.
+        // Back button returns to or navigates back from this task.
+        if (id == android.R.id.home) {
+            NavUtils.navigateUpFromSameTask(this);
+        }
+        return super.onOptionsItemSelected(item);
+    }
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_map);
+
+        // Add the Back button
+        ActionBar actionbar = this.getSupportActionBar();
+        if (actionbar != null) {
+            actionbar.setDisplayHomeAsUpEnabled(true);
+        }
+
+        Bundle extras = getIntent().getExtras();
+        if (extras != null){
+            mLatitude = extras.getDouble("latitude");
+            mLongitude = extras.getDouble("longitude");
+        }
+
         // Obtain the SupportMapFragment and get notified when the map is ready to be used.
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
                 .findFragmentById(R.id.map);
@@ -136,4 +169,29 @@ public class MapActivity extends FragmentActivity implements OnMapReadyCallback 
         }
 
     }
+
+
+    /**
+     * Create an options menu
+     *
+     * @param menu
+     * @return boolean
+     */
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.map, menu);
+
+        return true;
+    }
+
+
+
+
+
+
+
+
+
 }
+
+

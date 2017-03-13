@@ -68,6 +68,8 @@ public class ItineraryActivity extends AppCompatActivity implements GoogleApiCli
     private TextView mLongitudeLabelTextView;
     private TextView mLongitudeOutputTextView;
     private TextView mLatitudeOutputTextView;
+    private double mCurrentLongitude;
+    private double mCurrentLatitude;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -319,6 +321,8 @@ public class ItineraryActivity extends AppCompatActivity implements GoogleApiCli
             case R.id.action_map:
                 context = ItineraryActivity.this;
                 Intent startMapActivity = new Intent(context, MapActivity.class);
+                startMapActivity.putExtra("latitude", mCurrentLatitude);
+                startMapActivity.putExtra("longitude", mCurrentLongitude);
                 startActivity(startMapActivity);
                 return true;
 
@@ -410,8 +414,11 @@ public class ItineraryActivity extends AppCompatActivity implements GoogleApiCli
     @Override
     public void onLocationChanged(Location location) {
         //mOutputTextView.setText(location.toString());
-        mLatitudeOutputTextView.append(String.valueOf(location.getLatitude()));
-        mLongitudeOutputTextView.append(String.valueOf(location.getLongitude()));
+        mCurrentLocation = location;
+        mCurrentLatitude = location.getLatitude();
+        mCurrentLongitude = location.getLongitude();
+        mLatitudeOutputTextView.append(String.valueOf(mCurrentLatitude));
+        mLongitudeOutputTextView.append(String.valueOf(mCurrentLongitude));
     }
 
     protected void stopLocationUpdates() {

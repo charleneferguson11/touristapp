@@ -39,8 +39,9 @@
 
     <activity android:name=".PlaceActivity">
     </activity>
-    <activity android:name="dreamteamuk.touristapp.MapActivity"
-              android:label="@string/title_activity_map">
+    <activity android:name=".MapActivity"
+              android:label="@string/title_activity_map"
+              android:parentActivityName=".ItineraryActivity">
     </activity>
 </application>
 
