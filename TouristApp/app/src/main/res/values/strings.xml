@@ -11,6 +11,17 @@
     <string name="longitude">Longitude</string>
     <string name="priority_hint">priority</string>
     <string name="place_name_hint">place name</string>
+    <string name="place_name_label">Place Name</string>
+    <string name="place_type_label">Place Type</string>
+    <string name="place_url_label">Place Web Url</string>
+    <string name="place_image_label">Place Image Ref</string>
+    <string name="place_phone_label">Place Phone</string>
+    <string name="place_max_price_label">Place Max Price</string>
+    <string name="place_min_price_label">Place Min Price</string>
+    <string name="place_open_label">Place Open</string>
+    <string name="place_latitude_label">Place Latitude</string>
+    <string name="place_longitude_label">Place Longitude</string>
+    <string name="place_address">Place Address</string>
     <string name="add_button">Add</string>
     <string name="hello_blank_fragment">Hello</string>
     <!-- Label for order-by distance option [CHAR LIMIT=20] -->
@@ -28,4 +39,6 @@
     <string name="settings_order_by_default" translatable="false">@string/settings_min_distance_key</string>
     <string name="title_activity_maps">Map</string>
     <string name="title_activity_map">Map</string>
+    <string name="title_place_list">Places</string>
+    <string name="title_place_detail">Place Detail</string>
 </resources>

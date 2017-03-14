@@ -12,12 +12,26 @@ public class Place {
     private String mPlaceName;
     private String mPlaceType;
     private String mPlaceWebUrl;
-    private URL mImage;
+    private URL mPlaceImage;
     private String mPhone;
     private int mMaxPrice;
     private int mMinPrice;
     private int mOpen;
+    private double mLatitude;
+    private double mLongitude;
+    private double mAddress;
 
+    public double getAddress() {
+        return mAddress;
+    }
+
+    public double getLatitude() {
+        return mLatitude;
+    }
+
+    public double getLongitude() {
+        return mLongitude;
+    }
 
     public UUID getUUID() {
         return mUUID;
@@ -36,7 +50,7 @@ public class Place {
     }
 
     public URL getImage() {
-        return mImage;
+        return mPlaceImage;
     }
 
     public String getPhone() {
