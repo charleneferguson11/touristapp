@@ -326,11 +326,11 @@ public class ItineraryActivity extends AppCompatActivity implements GoogleApiCli
                 startActivity(startMapActivity);
                 return true;
 
-/*            case R.id.action_places:
+            case R.id.action_places:
                 context = ItineraryActivity.this;
-                Intent startPlacesActivity = new Intent(context, PlacesActivity.class);
-                startActivity(startPlacesActivity);
-                return true;*/
+                Intent startPlaceActivity = new Intent(context, PlaceActivity.class);
+                startActivity(startPlaceActivity);
+                return true;
 
         }
         return super.onOptionsItemSelected(item);

@@ -37,7 +37,9 @@
             android:name="com.google.android.gms.version"
             android:value="@integer/google_play_services_version"/>
 
-        <activity android:name=".PlaceActivity">
+        <activity android:name=".PlaceActivity"
+                  android:label="@string/action_places"
+            android:parentActivityName=".ItineraryActivity">
         </activity>
         <activity
             android:name=".MapActivity"
