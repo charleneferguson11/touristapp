@@ -1,8 +1,45 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:id="@+id/fragment_container">
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent"
+              android:layout_margin="16dp"
+              android:orientation="vertical">
 
-</FrameLayout>
+
+    <Button
+        android:id="@+id/place_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/search"/>
+
+    <TextView
+        android:id="@+id/detail_place_name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:hint="@string/place_name_hint"
+        />
+
+    <ImageView
+        android:id="@+id/detail_place_image"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:hint="@string/place_image_label"/>
+
+
+    <!--Required by Places API terms of service-->
+
+    <ImageView
+        android:id="@+id/google_image"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/powered_by_google_light"/>
+
+
+    <TextView
+        android:id="@+id/detail_place_attributions"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceSmall"
+        />
+
+</LinearLayout>

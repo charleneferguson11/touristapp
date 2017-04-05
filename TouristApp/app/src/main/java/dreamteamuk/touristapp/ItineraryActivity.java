@@ -4,6 +4,7 @@ import android.Manifest;
 import android.content.ContentValues;
 import android.content.Context;
 import android.content.Intent;
+import android.content.IntentSender;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.database.Cursor;
@@ -18,7 +19,6 @@ import android.support.v7.preference.PreferenceManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.helper.ItemTouchHelper;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -27,11 +27,10 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.gms.common.ConnectionResult;
+import com.google.android.gms.common.GoogleApiAvailability;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.location.LocationRequest;
 import com.google.android.gms.location.LocationServices;
-
-import static com.google.android.gms.location.LocationServices.API;
 
 public class ItineraryActivity extends AppCompatActivity implements GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener, com.google.android.gms.location.LocationListener {
 
@@ -43,6 +42,8 @@ public class ItineraryActivity extends AppCompatActivity implements GoogleApiCli
 
     // Identifies a location permission request
     private static final int REQUEST_LOCATION_PERMISSIONS = 0;
+
+    private final int RESOLVE_CONNECTION_REQUEST_CODE = 1000;
 
 
     // Number of items the view can hold
@@ -75,17 +76,19 @@ public class ItineraryActivity extends AppCompatActivity implements GoogleApiCli
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         // Trace Activity lifecycle
-        Log.d(TAG, "onCreate(Bundle) called");
+      //  Log.d(TAG, "onCreate(Bundle) called");
         setContentView(R.layout.activity_itinerary);
 
 
         // Create an instance of GoogleAPIClient.
+        // Add Google Places and Location Services API
         if (mGoogleApiClient == null) {
             mGoogleApiClient = new GoogleApiClient.Builder(this)
                     .addConnectionCallbacks(this)
                     .addOnConnectionFailedListener(this)
-                    .addApi(API)
+                    .addApi(LocationServices.API)
                     .build();
+
         }
 
         // Add floating button to add Itinerary items
@@ -116,7 +119,7 @@ public class ItineraryActivity extends AppCompatActivity implements GoogleApiCli
             }
         });*/
 
-
+        // Layout Manager for the RecyclerView
         LinearLayoutManager layoutManager = new LinearLayoutManager(this);
         mItineraryList.setLayoutManager(layoutManager);
 
@@ -158,10 +161,17 @@ public class ItineraryActivity extends AppCompatActivity implements GoogleApiCli
     @Override
     public void onStart() {
         super.onStart();
-        Log.d(TAG, "onStart() called");
+   ///     Log.d(TAG, "onStart() connecting to Google Play Services");
 
-        // Connect the client
-        if (mGoogleApiClient != null) {
+        // Connect to Google Play Services
+        // Checks to determine if Google Play Services are available on the device
+        // if not the user instructed to download it.
+        GoogleApiAvailability mGoogleAvailability = GoogleApiAvailability.getInstance();
+        int resultCode = mGoogleAvailability.isGooglePlayServicesAvailable(this);
+        if (resultCode != ConnectionResult.SUCCESS) {
+            mGoogleAvailability.getErrorDialog(this, resultCode, 1).show();
+            ;
+        } else {
             mGoogleApiClient.connect();
         }
 
@@ -170,20 +180,20 @@ public class ItineraryActivity extends AppCompatActivity implements GoogleApiCli
     @Override
     public void onPause() {
         super.onPause();
-        Log.d(TAG, "onPause() called");
+    //    Log.d(TAG, "onPause() called");
         stopLocationUpdates();
     }
 
     @Override
     public void onResume() {
         super.onResume();
-        Log.d(TAG, "onResume() called");
+    //    Log.d(TAG, "onResume() called");
     }
 
     @Override
     public void onStop() {
         super.onStop();
-        Log.d(TAG, "onStop() called");
+   //     Log.d(TAG, "onStop() called");
         //Disconnect the client
         if (mGoogleApiClient.isConnected()) {
             mGoogleApiClient.disconnect();
@@ -193,7 +203,7 @@ public class ItineraryActivity extends AppCompatActivity implements GoogleApiCli
     @Override
     public void onDestroy() {
         super.onDestroy();
-        Log.d(TAG, "onDestroy() called");
+    //    Log.d(TAG, "onDestroy() called");
     }
 
 
@@ -225,8 +235,8 @@ public class ItineraryActivity extends AppCompatActivity implements GoogleApiCli
     /**
      * Adds a new record to Itinerary table
      *
-     * @param name
-     * @param priority
+     * @param name     Place names
+     * @param priority Prioritise places to visit by user's preference
      */
     public long addItinerary(String name, String priority) {
 
@@ -234,7 +244,7 @@ public class ItineraryActivity extends AppCompatActivity implements GoogleApiCli
         contentValues.put(ItineraryListContract.ItineraryListEntry.COLUMN_PLACE_NAME, name);
         contentValues.put(ItineraryListContract.ItineraryListEntry.COLUMN_PRIORITY, priority);
 
-        long newRowId = mItineraryDb.insert(ItineraryListContract.ItineraryListEntry.TABLE_NAME, null, contentValues);
+        long newRowId = mItineraryDb.insert(ItineraryListContract.ItineraryListEntry.TABLE_ITINERARY_LIST_NAME, null, contentValues);
 
         if (newRowId == -1) {
             Toast.makeText(this, "Error with saving itinerary", Toast.LENGTH_SHORT).show();
@@ -254,7 +264,7 @@ public class ItineraryActivity extends AppCompatActivity implements GoogleApiCli
      */
     public boolean removeItinerary(long id) {
 
-        return mItineraryDb.delete(ItineraryListContract.ItineraryListEntry.TABLE_NAME, ItineraryListContract.ItineraryListEntry._ID + "=" + id, null) > 0;
+        return mItineraryDb.delete(ItineraryListContract.ItineraryListEntry.TABLE_ITINERARY_LIST_NAME, ItineraryListContract.ItineraryListEntry._ID + "=" + id, null) > 0;
 
     }
 
@@ -263,7 +273,7 @@ public class ItineraryActivity extends AppCompatActivity implements GoogleApiCli
      */
     private Cursor getAllItineraryData() {
 
-        return mItineraryDb.query(ItineraryListContract.ItineraryListEntry.TABLE_NAME,
+        return mItineraryDb.query(ItineraryListContract.ItineraryListEntry.TABLE_ITINERARY_LIST_NAME,
                 null,
                 null,
                 null,
@@ -293,7 +303,12 @@ public class ItineraryActivity extends AppCompatActivity implements GoogleApiCli
         return true;
     }
 
-
+    /**
+     * List menu options in the action bar
+     *
+     * @param item
+     * @return boolean
+     */
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
 
@@ -332,11 +347,22 @@ public class ItineraryActivity extends AppCompatActivity implements GoogleApiCli
                 startActivity(startPlaceActivity);
                 return true;
 
+            case R.id.action_service:
+                context = ItineraryActivity.this;
+                Intent startServiceActivity = new Intent(context, ServiceActivity.class);
+                startActivity(startServiceActivity);
+                return true;
+
         }
         return super.onOptionsItemSelected(item);
     }
 
-
+    /*
+    * Sets up the Location request.
+    * Sets up whether to prioritise accuracy or battery life
+    * Limits the number of updates to 1.
+    * Sets how often the updates are updated
+    * */
     private void findLocation() {
         mLocationRequest = LocationRequest.create();
         mLocationRequest.setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY);
@@ -347,7 +373,7 @@ public class ItineraryActivity extends AppCompatActivity implements GoogleApiCli
     @Override
     public void onConnected(Bundle bundle) {
 
-
+        // For Marshmallow and above the
         //Check if location permission is already available
 
         int result = ContextCompat.checkSelfPermission(this, LOCATION_PERMISSIONS[0]);
@@ -403,12 +429,24 @@ public class ItineraryActivity extends AppCompatActivity implements GoogleApiCli
 
     @Override
     public void onConnectionSuspended(int i) {
-
+     //   Log.d(TAG, "onConnectionSuspended: Connection was suspended case is" + i);
+        // Re-establish connection again
+        mGoogleApiClient.connect();
     }
 
     @Override
     public void onConnectionFailed(@NonNull ConnectionResult connectionResult) {
+     //   Log.d(TAG, "onConnectionFailed: Connection failed ErrorCode is" + connectionResult.getErrorCode());
+    if (connectionResult.hasResolution()){
 
+        try {
+            connectionResult.startResolutionForResult(this, RESOLVE_CONNECTION_REQUEST_CODE);
+        } catch (IntentSender.SendIntentException e) {
+            e.printStackTrace();
+     //       Log.e(TAG, "Could not connect.");
+        }
+
+    }
     }
 
     @Override
@@ -426,26 +464,6 @@ public class ItineraryActivity extends AppCompatActivity implements GoogleApiCli
                 mGoogleApiClient, this);
     }
 
-
-
-
-
-
-
-
-/**
- *  Make an HTTP network request.
- */
-
-/*private String makeHttpRequest() throws IOException{
-
-    // Store the json response as a string
-    String jsonResponse ="";
-
-
-
-    return jsonResponse;
-}*/
 
 
 }

@@ -32,19 +32,29 @@
 
         <meta-data
             android:name="com.google.android.geo.API_KEY"
-            android:value="key"/>
+            android:value="AIzaSyCu7AOcOR8d6pekRk9_MZMPpt7j9h2hes0"/>
         <meta-data
             android:name="com.google.android.gms.version"
             android:value="@integer/google_play_services_version"/>
 
-        <activity android:name=".PlaceActivity"
-                  android:label="@string/action_places"
+        <activity
+            android:name=".PlaceActivity"
+            android:label="@string/action_places"
             android:parentActivityName=".ItineraryActivity">
         </activity>
         <activity
             android:name=".MapActivity"
             android:label="@string/title_activity_map"
             android:parentActivityName=".ItineraryActivity">
+        </activity>
+
+        <service
+            android:name=".MyService"
+            android:exported="false">
+            // Only available for this app.
+        </service>
+
+        <activity android:name=".ServiceActivity">
         </activity>
     </application>
 

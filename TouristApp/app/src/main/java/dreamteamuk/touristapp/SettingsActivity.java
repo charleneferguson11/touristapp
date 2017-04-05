@@ -12,6 +12,7 @@ import android.view.MenuItem;
 
 public class SettingsActivity extends AppCompatActivity {
 
+
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
@@ -37,6 +38,7 @@ public class SettingsActivity extends AppCompatActivity {
 
 
     }
+
 
 
 }

@@ -9,11 +9,18 @@ import android.provider.BaseColumns;
 public class ItineraryListContract {
     public class ItineraryListEntry implements BaseColumns {
         // TABLE_NAME is itinerarylist
-        public static final String TABLE_NAME = "itinerarylist";
+        public static final String TABLE_ITINERARY_LIST_NAME = "itinerarylist";
         // COLUMN_PLACE_NAME is placeName
         public static final String COLUMN_PLACE_NAME = "placeName";
         // COLUMN_PRIORITY is priority
         public static final String COLUMN_PRIORITY = "priority";
+
+        // Store PlaceId
+        // TABLE_PLACEID is the placeid of a place
+        public static final String TABLE_PLACE_ID_NAME = "placeid";
+        // COLUMN_PLACE_ID is placeID
+        public static final String COLUMN_PLACE_ID = "placeID";
+
 
     }
 }
