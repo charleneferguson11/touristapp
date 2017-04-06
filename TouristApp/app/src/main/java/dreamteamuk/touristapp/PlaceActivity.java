@@ -7,7 +7,6 @@ import android.support.annotation.NonNull;
 import android.support.v4.app.NavUtils;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
@@ -15,7 +14,8 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.google.android.gms.common.ConnectionResult;
-import com.google.android.gms.common.GoogleApiAvailability;
+import com.google.android.gms.common.GooglePlayServicesNotAvailableException;
+import com.google.android.gms.common.GooglePlayServicesRepairableException;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.common.api.ResultCallback;
 import com.google.android.gms.location.places.Place;
@@ -31,7 +31,6 @@ public class PlaceActivity extends AppCompatActivity implements GoogleApiClient.
 
 
     private final int PLACE_PICKER_REQUEST = 1;
-    private final int RESOLVE_CONNECTION_REQUEST = 11;
 
     private static final String[] LOCATION_PERMISSIONS = new String[]{
             Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.ACCESS_COARSE_LOCATION
@@ -43,7 +42,6 @@ public class PlaceActivity extends AppCompatActivity implements GoogleApiClient.
     // Reference to Google API
     private GoogleApiClient mGoogleApiClient;
     // Determines whether location permissions are granted
-    private boolean hasLocationPermission;
     private PlacePicker.IntentBuilder builder;
     private Place mPlace;
     // Text that displays the place data
@@ -55,7 +53,7 @@ public class PlaceActivity extends AppCompatActivity implements GoogleApiClient.
 
     private String mPlaceData;
 
-
+    @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
 
@@ -70,19 +68,27 @@ public class PlaceActivity extends AppCompatActivity implements GoogleApiClient.
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
 
-        switch (requestCode) {
-            case RESOLVE_CONNECTION_REQUEST:
-                if (resultCode == RESULT_OK) {
-                    mGoogleApiClient.connect();
-                }
-                break;
+        if (requestCode == PLACE_PICKER_REQUEST) {
+            if (requestCode == RESULT_OK) {
+                Place place = PlacePicker.getPlace(data, this);
 
-            case PLACE_PICKER_REQUEST:
-                if (requestCode == RESULT_OK) {
-                    Place aNewPlace = PlacePicker.getPlace(this, data);
-                    updateUserInterface(aNewPlace);
-                }
-                break;
+                //                  Place place = PlacePicker.getPlace(data, this);
+                String placeID = place.getId();
+                placePhotosAsync(placeID);
+                String address = place.getAddress().toString();
+                String name = place.getName().toString();
+                String type = String.valueOf(place.getPlaceTypes());
+                CharSequence charPhoneNumber = place.getPhoneNumber();
+                String webAddress = String.valueOf(place.getWebsiteUri());
+                //int phoneNumber = Integer.parseInt(charPhoneNumber.toString());
+                /*Uri webAddress = place.getWebsiteUri();
+                CharSequence charPhoneNumber = place.getPhoneNumber();
+                int phoneNumber = Integer.parseInt(charPhoneNumber.toString());
+*/
+                mPlaceDataTextView.setText("hello" + "\n " + address);
+                mPlaceDataTextView.append("\n " + charPhoneNumber
+                        + "\n " + webAddress);
+            }
         }
 
     }
@@ -97,16 +103,27 @@ public class PlaceActivity extends AppCompatActivity implements GoogleApiClient.
                 .addOnConnectionFailedListener(this)
                 .addApi(Places.GEO_DATA_API)
                 .addApi(Places.PLACE_DETECTION_API)
+                .enableAutoManage(this,this)
                 .build();
 
         mPlaceDataTextView = (TextView) findViewById(R.id.detail_place_name);
         mPlaceImage = (ImageView) findViewById(R.id.detail_place_image);
         mPlaceButton = (Button) findViewById(R.id.place_button);
-
         mPlaceButton.setOnClickListener(new View.OnClickListener() {
+
             @Override
             public void onClick(View view) {
-                selectPlace();
+                builder = new PlacePicker.IntentBuilder();
+                Intent intent;
+                try {
+                    intent = builder.build(PlaceActivity.this);
+                    startActivityForResult(intent, PLACE_PICKER_REQUEST);
+                } catch (GooglePlayServicesRepairableException e) {
+                    e.printStackTrace();
+                } catch (GooglePlayServicesNotAvailableException e) {
+                    e.printStackTrace();
+                }
+
             }
         });
 
@@ -120,7 +137,7 @@ public class PlaceActivity extends AppCompatActivity implements GoogleApiClient.
 
     }
 
-    private void selectPlace() {
+ /*   private void selectPlace() {
         builder = new PlacePicker.IntentBuilder();
         Intent intent;
         try {
@@ -131,7 +148,7 @@ public class PlaceActivity extends AppCompatActivity implements GoogleApiClient.
             Log.e(TAG, e.toString());
         }
 
-    }
+    }*/
 
     /*Gets the data from the place object and puts it on the UI
     * @param selectedPlace is the place object selected by the user
@@ -139,8 +156,8 @@ public class PlaceActivity extends AppCompatActivity implements GoogleApiClient.
 
     public void updateUserInterface(Place currentPlace) {
 
- //       String placeID = currentPlace.getId();
-  //      placePhotosAsync(placeID);
+        //       String placeID = currentPlace.getId();
+        //      placePhotosAsync(placeID);
 
         mPlaceData = currentPlace.getName() + "\n";
                 /*+ currentPlace.getAddress() + "\n"
@@ -195,35 +212,6 @@ public class PlaceActivity extends AppCompatActivity implements GoogleApiClient.
                 });
     }
 
-
-
-
-    @Override
-    public void onStart() {
-        super.onStart();
-
-        // Connect to Google Play Services
-        // Checks to determine if Google Play Services are available on the device
-        // if not the user instructed to download it.
-        GoogleApiAvailability mGoogleAvailability = GoogleApiAvailability.getInstance();
-        int resultCode = mGoogleAvailability.isGooglePlayServicesAvailable(this);
-        if (resultCode != ConnectionResult.SUCCESS) {
-            mGoogleAvailability.getErrorDialog(this, resultCode, 1).show();
-            ;
-        } else {
-            mGoogleApiClient.connect();
-        }
-    }// End onStart
-
-    @Override
-    public void onStop() {
-        super.onStop();
-        Log.d(TAG, "onStop() called");
-        //Disconnect the client
-        if (mGoogleApiClient.isConnected()) {
-            mGoogleApiClient.disconnect();
-        }
-    }//End onStop
 
 
     @Override

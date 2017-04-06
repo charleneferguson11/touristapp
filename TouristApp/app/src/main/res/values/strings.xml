@@ -5,6 +5,7 @@
     <string name="action_save">Save</string>
     <string name="action_delete">Delete</string>
     <string name="action_places">Place</string>
+    <string name="action_service">Service</string>
     <string name="search">Search</string>
     <string name="output">Output</string>
     <string name="latitude">Latitude</string>
@@ -38,9 +39,9 @@
     <string name="settings_order_by_label">Order By</string>
     <string name="settings_order_by_key" translatable="false">order_by</string>
     <string name="settings_order_by_default" translatable="false">@string/settings_min_distance_key</string>
-    <string name="title_activity_maps">Map</string>
+    <string name="title_activity_service">Service</string>
     <string name="title_activity_map">Map</string>
+    <string name="title_activity_place">Place</string>
     <string name="title_place_list">Places</string>
     <string name="title_place_detail">Place Detail</string>
-    <string name="action_service">Service</string>
 </resources>

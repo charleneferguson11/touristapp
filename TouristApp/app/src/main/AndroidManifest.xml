@@ -32,7 +32,7 @@
 
         <meta-data
             android:name="com.google.android.geo.API_KEY"
-            android:value="AIzaSyCu7AOcOR8d6pekRk9_MZMPpt7j9h2hes0"/>
+            android:value="key"/>
         <meta-data
             android:name="com.google.android.gms.version"
             android:value="@integer/google_play_services_version"/>
@@ -54,7 +54,13 @@
             // Only available for this app.
         </service>
 
-        <activity android:name=".ServiceActivity">
+        <activity android:name=".ServiceActivity"
+            android:label="@string/title_activity_service"
+            android:parentActivityName=".ItineraryActivity">
+        </activity>
+        <activity android:name=".TestPlaceActivity"
+            android:label="@string/title_activity_place"
+            android:parentActivityName=".ItineraryActivity">
         </activity>
     </application>
 

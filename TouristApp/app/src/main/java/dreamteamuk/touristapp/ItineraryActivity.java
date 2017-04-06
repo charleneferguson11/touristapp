@@ -343,7 +343,7 @@ public class ItineraryActivity extends AppCompatActivity implements GoogleApiCli
 
             case R.id.action_places:
                 context = ItineraryActivity.this;
-                Intent startPlaceActivity = new Intent(context, PlaceActivity.class);
+                Intent startPlaceActivity = new Intent(context, TestPlaceActivity.class);
                 startActivity(startPlaceActivity);
                 return true;
 
