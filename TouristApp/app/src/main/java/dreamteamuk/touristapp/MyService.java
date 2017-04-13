@@ -43,6 +43,12 @@ public class MyService extends IntentService {
             return;
         }
 
+        // The next step is to parse the data from the json String
+
+ /*       TouristPlaceParser transformResponseString = new TouristPlaceParser();
+        List<TouristPlace> listOfPlaces = transformResponseString.parseMessage(response);
+
+*/
         // This creates a message that can be received and handled by other components within the app.
         Intent messageIntent = new Intent(SERVICE_MESSAGE);
         messageIntent.putExtra(SERVICE_MESSAGE_PAYLOAD, response);

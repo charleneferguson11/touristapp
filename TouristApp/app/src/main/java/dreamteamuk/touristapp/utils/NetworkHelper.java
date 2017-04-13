@@ -6,6 +6,7 @@ import android.net.NetworkInfo;
 
 /*
 * Utility helper class that checks network connectivity
+* Internet connection via mobile
 * */
 public class NetworkHelper {
 
