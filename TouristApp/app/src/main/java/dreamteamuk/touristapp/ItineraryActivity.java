@@ -32,6 +32,9 @@ import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.location.LocationRequest;
 import com.google.android.gms.location.LocationServices;
 
+/**
+ *
+ */
 public class ItineraryActivity extends AppCompatActivity implements GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener, com.google.android.gms.location.LocationListener {
 
     private static final String TAG = "ItineraryActivity";
@@ -76,7 +79,7 @@ public class ItineraryActivity extends AppCompatActivity implements GoogleApiCli
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         // Trace Activity lifecycle
-      //  Log.d(TAG, "onCreate(Bundle) called");
+        //  Log.d(TAG, "onCreate(Bundle) called");
         setContentView(R.layout.activity_itinerary);
 
 
@@ -161,7 +164,7 @@ public class ItineraryActivity extends AppCompatActivity implements GoogleApiCli
     @Override
     public void onStart() {
         super.onStart();
-   ///     Log.d(TAG, "onStart() connecting to Google Play Services");
+        ///     Log.d(TAG, "onStart() connecting to Google Play Services");
 
         // Connect to Google Play Services
         // Checks to determine if Google Play Services are available on the device
@@ -180,20 +183,20 @@ public class ItineraryActivity extends AppCompatActivity implements GoogleApiCli
     @Override
     public void onPause() {
         super.onPause();
-    //    Log.d(TAG, "onPause() called");
+        //    Log.d(TAG, "onPause() called");
         stopLocationUpdates();
     }
 
     @Override
     public void onResume() {
         super.onResume();
-    //    Log.d(TAG, "onResume() called");
+        //    Log.d(TAG, "onResume() called");
     }
 
     @Override
     public void onStop() {
         super.onStop();
-   //     Log.d(TAG, "onStop() called");
+        //     Log.d(TAG, "onStop() called");
         //Disconnect the client
         if (mGoogleApiClient.isConnected()) {
             mGoogleApiClient.disconnect();
@@ -203,7 +206,7 @@ public class ItineraryActivity extends AppCompatActivity implements GoogleApiCli
     @Override
     public void onDestroy() {
         super.onDestroy();
-    //    Log.d(TAG, "onDestroy() called");
+        //    Log.d(TAG, "onDestroy() called");
     }
 
 
@@ -306,29 +309,16 @@ public class ItineraryActivity extends AppCompatActivity implements GoogleApiCli
     /**
      * List menu options in the action bar
      *
-     * @param item
+     * @param item passes the menu option selected
      * @return boolean
      */
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
 
-        int menuItemSelected = item.getItemId();
-
         switch (item.getItemId()) {
-            case R.id.action_search:
-                Context context = ItineraryActivity.this;
-                String message = "Search clicked";
-                Toast.makeText(context, message, Toast.LENGTH_LONG).show();
-                return true;
-
-            case R.id.action_save:
-                context = ItineraryActivity.this;
-                message = "Save clicked";
-                Toast.makeText(context, message, Toast.LENGTH_LONG).show();
-                return true;
 
             case R.id.action_settings:
-                context = ItineraryActivity.this;
+                Context context = ItineraryActivity.this;
                 Intent startSettingsActivity = new Intent(context, SettingsActivity.class);
                 startActivity(startSettingsActivity);
                 return true;
@@ -339,12 +329,6 @@ public class ItineraryActivity extends AppCompatActivity implements GoogleApiCli
                 startMapActivity.putExtra("latitude", mCurrentLatitude);
                 startMapActivity.putExtra("longitude", mCurrentLongitude);
                 startActivity(startMapActivity);
-                return true;
-
-            case R.id.action_places:
-                context = ItineraryActivity.this;
-                Intent startPlaceActivity = new Intent(context, TestPlaceActivity.class);
-                startActivity(startPlaceActivity);
                 return true;
 
             case R.id.action_service:
@@ -416,9 +400,8 @@ public class ItineraryActivity extends AppCompatActivity implements GoogleApiCli
                     findLocation();
 
                 } else {
-                    Toast.makeText(this, "Permisison was not granted", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(this, "Permission was not granted", Toast.LENGTH_SHORT).show();
                 }
-                return;
             }
 
             // other 'case' lines to check for other
@@ -429,24 +412,24 @@ public class ItineraryActivity extends AppCompatActivity implements GoogleApiCli
 
     @Override
     public void onConnectionSuspended(int i) {
-     //   Log.d(TAG, "onConnectionSuspended: Connection was suspended case is" + i);
+        //   Log.d(TAG, "onConnectionSuspended: Connection was suspended case is" + i);
         // Re-establish connection again
         mGoogleApiClient.connect();
     }
 
     @Override
     public void onConnectionFailed(@NonNull ConnectionResult connectionResult) {
-     //   Log.d(TAG, "onConnectionFailed: Connection failed ErrorCode is" + connectionResult.getErrorCode());
-    if (connectionResult.hasResolution()){
+        //   Log.d(TAG, "onConnectionFailed: Connection failed ErrorCode is" + connectionResult.getErrorCode());
+        if (connectionResult.hasResolution()) {
 
-        try {
-            connectionResult.startResolutionForResult(this, RESOLVE_CONNECTION_REQUEST_CODE);
-        } catch (IntentSender.SendIntentException e) {
-            e.printStackTrace();
-     //       Log.e(TAG, "Could not connect.");
+            try {
+                connectionResult.startResolutionForResult(this, RESOLVE_CONNECTION_REQUEST_CODE);
+            } catch (IntentSender.SendIntentException e) {
+                e.printStackTrace();
+                //       Log.e(TAG, "Could not connect.");
+            }
+
         }
-
-    }
     }
 
     @Override
@@ -463,7 +446,6 @@ public class ItineraryActivity extends AppCompatActivity implements GoogleApiCli
         LocationServices.FusedLocationApi.removeLocationUpdates(
                 mGoogleApiClient, this);
     }
-
 
 
 }

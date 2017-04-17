@@ -17,7 +17,7 @@ import dreamteamuk.touristapp.utils.HttpHelper;
 
 public class MyService extends IntentService {
 
-    public static final String TAGSERVICE = "MyService";
+    public static final String TAG_SERVICE = "MyService";
 
     public static final String SERVICE_MESSAGE = "myMessage";
     public static final String SERVICE_MESSAGE_PAYLOAD = "myMessagePayload";
@@ -33,7 +33,7 @@ public class MyService extends IntentService {
         Uri uri = intent.getData();
 
         // Test that I received the data by tracing in logcat.
-        Log.i(TAGSERVICE, "onHandleIntent" + uri.toString());
+        Log.i(TAG_SERVICE, "onHandleIntent" + uri.toString());
 
         String response;
         try {
@@ -43,12 +43,6 @@ public class MyService extends IntentService {
             return;
         }
 
-        // The next step is to parse the data from the json String
-
- /*       TouristPlaceParser transformResponseString = new TouristPlaceParser();
-        List<TouristPlace> listOfPlaces = transformResponseString.parseMessage(response);
-
-*/
         // This creates a message that can be received and handled by other components within the app.
         Intent messageIntent = new Intent(SERVICE_MESSAGE);
         messageIntent.putExtra(SERVICE_MESSAGE_PAYLOAD, response);
@@ -64,12 +58,12 @@ public class MyService extends IntentService {
     @Override
     public void onCreate() {
         super.onCreate();
-        Log.i(TAGSERVICE, "onCreate");
+        Log.i(TAG_SERVICE, "onCreate");
     }
 
     @Override
     public void onDestroy() {
         super.onDestroy();
-        Log.i(TAGSERVICE, "onDestroy");
+        Log.i(TAG_SERVICE, "onDestroy");
     }
 }

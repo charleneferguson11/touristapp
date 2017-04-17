@@ -6,6 +6,7 @@
     <string name="action_delete">Delete</string>
     <string name="action_places">Place</string>
     <string name="action_service">Service</string>
+    <string name="action_service_settings">Service Settings</string>
     <string name="search">Search</string>
     <string name="output">Output</string>
     <string name="latitude">Latitude</string>
@@ -26,6 +27,7 @@
     <string name="add_button">Add</string>
     <string name="weather_hint">Weather Data Placed Here</string>
     <string name="hello_blank_fragment">Hello</string>
+    <string name="key">Key</string>
     <!-- Label for order-by distance option [CHAR LIMIT=20] -->
     <string name="settings_min_distance_label">Minimum Distance</string>
     <string name="settings_min_distance_key" translatable="false">distance</string>
@@ -44,4 +46,9 @@
     <string name="title_activity_place">Place</string>
     <string name="title_place_list">Places</string>
     <string name="title_place_detail">Place Detail</string>
+
+    <!-- Label for Places settings option [CHAR LIMIT=NONE] -->
+    <string name="service_settings_menu_item">Settings</string>
+    <!-- Settings Activity Title [CHAR LIMIT=NONE] -->
+    <string name="service_settings_title">Places Settings</string>
 </resources>

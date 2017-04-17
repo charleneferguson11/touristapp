@@ -2,20 +2,15 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
       xmlns:app="http://schemas.android.com/apk/res-auto">
 
-    <item android:id="@+id/action_settings"
-          android:title="@string/action_settings"
-        app:showAsAction="ifRoom"/>
+    <item android:id="@+id/action_service_settings"
+          android:title="@string/action_service_settings"
+          app:showAsAction="ifRoom"/>
     <item android:id="@+id/action_map"
           android:title="@string/action_map"
           app:showAsAction="ifRoom"/>
-
     <item android:id="@+id/action_places"
           android:title="@string/action_places"
           app:showAsAction="ifRoom"/>
-    <item android:id="@+id/action_service"
-          android:title="@string/action_service"
-          app:showAsAction="ifRoom"/>
-
 
 
 </menu>
